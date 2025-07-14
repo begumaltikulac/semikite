@@ -68,7 +68,7 @@ def cutting(image: np.array) -> np.array:
     
     return masked_image, mask
 
-def rgb_calc(original_image: np.array, smoothed_image: np.array, mask: np.array):
+def rgb_calc(original_image: np.array, smoothed_image: np.array):
     
     diff = cv2.absdiff(smoothed_image, original_image)         # shape (H, W, 3)
     total_diff = diff[:,:,0]
