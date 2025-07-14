@@ -17,14 +17,13 @@
 #%% 
 import re
 from pathlib import Path
-from pathlib import PosixPath
 
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
 #%%
-def filenames_gen(path: PosixPath):
+def filenames_gen(path: Path) -> list:
     
     image_names = [f.name for f in path.iterdir()]
     original_images = []
@@ -37,14 +36,14 @@ def filenames_gen(path: PosixPath):
 
 def find_timestamps(img_names: list):
     
-    timestamps = []
+    times = []
     
     for fname in img_names:
         match = re.search(r'\d{8}_\d{6}', fname)
         if match:
-            timestamps.append(match.group())
+            times.append(match.group())
     
-    return timestamps
+    return times
 
 def read_image(image: str):
     
