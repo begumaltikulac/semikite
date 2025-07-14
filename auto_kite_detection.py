@@ -143,7 +143,7 @@ def plot_rgb_channel_differences(original: np.array, smoothed: np.array):
 #%%
 PATH = Path("src/semikite/images")  # Change according to image folder path
 # PATH = Path("Lex/test_pics")
-top_n = 1  # number of pixel to be detected
+n_pixel = 1  # number of pixel to be detected
 
 image_filenames = filenames_gen(PATH)
 timestamps = find_timestamps(image_filenames)
@@ -154,7 +154,7 @@ for original, idx, timestamp in zip(image_filenames,np.arange(1, len(image_filen
     smoothed_img = smoothing(original)
     cut_smoothed = cutting(smoothed_img)
     rgb_difference = rgb_calc(cut_original, cut_smoothed)
-    pixel_coords = find_top_pixels(rgb_difference, top_n)
+    pixel_coords = find_top_pixels(rgb_difference, n_pixel)
     highlighted_pic = visualize(pixel_coords, original)
     # save_image("Lex/new_img", highlighted_pic, f"{timestamp}")
     save_image("src/semikite/detected_images", highlighted_pic, f"{timestamp}")
