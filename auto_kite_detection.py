@@ -108,14 +108,13 @@ def plot_difference_field(diff_field: np.array, title="Difference Field"):
     
     return
     
-def plot_rgb_channel_differences(original: np.array, smoothed: np.array):
+def plot_rgb_channel_differences(original_image: np.array, smoothed_image: np.array):
     
-    diff = cv2.absdiff(smoothed, original)
+    diff = cv2.absdiff(smoothed_image, original_image)
     b_diff, g_diff, r_diff = cv2.split(diff)
     diffs = [r_diff, g_diff, b_diff]
     titles = ['Red Channel Difference', 'Green Channel Difference', 'Blue Channel Difference']
 
-    # Set up plots
     fig, axs = plt.subplots(3, 1, figsize=(6, 18))
     cmap = 'hot'
 
