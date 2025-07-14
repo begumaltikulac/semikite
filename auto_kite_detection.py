@@ -79,7 +79,7 @@ def find_top_pixels(total_diff: np.array, top_n: int):
     flat = total_diff.flatten()
     top_indices = np.argpartition(flat, -top_n)[-top_n:]
     top_indices = top_indices[np.argsort(-flat[top_indices])]  # Sort descending
-    top_coords = [np.unravel_index(idx, total_diff.shape) for idx in top_indices]
+    top_coords = [np.unravel_index(_index, total_diff.shape) for _index in top_indices]
     
     return top_coords
 
