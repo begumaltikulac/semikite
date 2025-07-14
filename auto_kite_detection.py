@@ -24,13 +24,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 #%%
-def filenames_gen(PATH: PosixPath):
+def filenames_gen(path: PosixPath):
     
-    image_names = [f.name for f in PATH.iterdir()]
+    image_names = [f.name for f in path.iterdir()]
     original_images = []
 
     for name in image_names:
-        original_images.append(f"{PATH._str}/{name}")
+        original_images.append(f"{path._str}/{name}")
         original_images.sort()
     
     return original_images
