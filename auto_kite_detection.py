@@ -1,9 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Jun 30 11:27:34 2025
-
-@author: Bohong Li
+    Author: Bohong Li
+    The automatic kite detection mechanism is based on the difference in the RGB code of the original image and
+    a blurred image. The mechanism works as follows:
+    - First, Gaussian smoothing is applied on the original image. The image has to be smoothed first to avoid influences
+    by sharp edges between the horizon and the edge of the lense.
+    - Second, a mask is defined to cut out the lense edges and the lower part of the horizon in both the smoothed and
+    the original image, should the outer edge of the horizon contain buildings or obstacles.
+    - Third, the difference in the RGB code between the cut-out smoothed and original is calculated. Only the red (R)
+    channel is used, as the total difference leads to the results.
+    - Fourth, the algorithm finds the pixel with the largest difference in the R-channel.
+    - Finally, the pixel is highlighted and denoted with a 1 on the original image. The final image can also be saved.
 """
 
 #%% 
