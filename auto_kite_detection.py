@@ -158,4 +158,4 @@ for original, idx, timestamp in zip(image_filenames,np.arange(1, len(image_filen
     # save_image("Lex/new_img", highlighted_pic, f"{timestamp}")
     save_image("src/semikite/detected_images", highlighted_pic, f"{timestamp}")
     
-    # plot_rgb_channel_differences(cut_original, cut_smoothed)  # COMMENT IF DO NOT WANT TO PLOT THE CHANNEL DIFFERENCE
+    # plot_rgb_channel_differences(cut_original, cut_smoothed)  # COMMENT OUT IF ONE DOES NOT WANT TO PLOT THE CHANNEL DIFFERENCE
