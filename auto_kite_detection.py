@@ -149,9 +149,9 @@ timestamps = find_timestamps(image_filenames)
     
 for original, idx, timestamp in zip(image_filenames,np.arange(1, len(image_filenames)), timestamps):
     original = read_image(original)
-    cut_original = cutting(original)
+    cut_original,_ = cutting(original)
     smoothed_img = smoothing(original)
-    cut_smoothed = cutting(smoothed_img)
+    cut_smoothed, _ = cutting(smoothed_img)
     rgb_difference = rgb_calc(cut_original, cut_smoothed)
     pixel_coords = find_top_pixels(rgb_difference, n_pixel)
     highlighted_pic = visualize(pixel_coords, original)

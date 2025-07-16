@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 
 # ✅ 1. Set the folder where your images are
-image_folder = 'C:/Users/BEGUM/PycharmProjects/semikite/images/'
+image_folder = 'C:/Users/BEGUM/PycharmProjects/semikite/images'
 
 # ✅ 2. Automatically collect all .jpg image paths
 image_paths = [os.path.join(image_folder, f)
