@@ -14,22 +14,23 @@
     - Finally, the pixel is highlighted and denoted with a 1 on the original image. The final image can also be saved.
 """
 
-#%% 
+#%%
+from os import listdir
+from os.path import isfile, join
 import re
-from pathlib import Path
 
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
 #%%
-def filenames_gen(path: Path) -> list:
+def filenames_gen(path: str) -> list:
     
-    image_names = [f.name for f in path.iterdir()]
+    image_names = [f for f in listdir(path) if isfile(join(path, f))]
     original_images = []
 
     for name in image_names:
-        original_images.append(f"{path._str}/{name}")
+        original_images.append(f"{path}/{name}")
         original_images.sort()
     
     return original_images
@@ -140,7 +141,7 @@ def plot_rgb_channel_differences(original_image: np.array, smoothed_image: np.ar
     plt.show()
 
 #%%
-PATH = Path("src/semikite/images")  # Change according to image folder path
+PATH = "../semikite/images"  # Change according to image folder path
 # PATH = Path("Lex/test_pics")
 n_pixel = 1  # number of pixel to be detected
 
@@ -156,6 +157,6 @@ for original, idx, timestamp in zip(image_filenames,np.arange(1, len(image_filen
     pixel_coords = find_top_pixels(rgb_difference, n_pixel)
     highlighted_pic = visualize(pixel_coords, original)
     # save_image("Lex/new_img", highlighted_pic, f"{timestamp}")
-    save_image("src/semikite/detected_images", highlighted_pic, f"{timestamp}")
+    save_image("detected_images", highlighted_pic, f"{timestamp}")
     
     # plot_rgb_channel_differences(cut_original, cut_smoothed)  # COMMENT OUT IF ONE DOES NOT WANT TO PLOT THE CHANNEL DIFFERENCE
