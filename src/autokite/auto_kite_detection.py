@@ -150,7 +150,7 @@ n_pixel = 1  # number of pixel to be detected
 image_filenames = filenames_gen(PATH)
 timestamps = find_timestamps(image_filenames)
     
-for original, idx, timestamp in zip(image_filenames,np.arange(1, len(image_filenames)), timestamps):
+for original, timestamp in zip(image_filenames, timestamps):
     original = read_image(original)
     cut_original,_ = cutting(original)
     smoothed_img = smoothing(original)
