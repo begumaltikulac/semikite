@@ -84,6 +84,20 @@ def find_top_pixels(total_diff: np.array, top_n: int) -> list:
 
     return top_coords
 
+def document_top_pixels(times: list, coords: dict, output_file: str) -> None:
+
+    with open(output_file, "w"):
+        pass
+    with open(output_file, "a") as f:
+        for time in times:
+            if isinstance(coords[time], int):
+                continue
+            else:
+                f.write(f"Kite at {time}: \n")
+                for c in coords[time]:
+                    f.write(f"{c}\n")
+            f.write(f"\n")
+
 def visualize(coordinates: np.array, original_image: np.array):
     
     highlight = original_image.copy()
