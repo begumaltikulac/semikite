@@ -66,7 +66,7 @@ def cutting(image: np.array) -> np.array:
     cv2.circle(mask, center, radius, 255, -1)
     masked_image = cv2.bitwise_and(image, image, mask=mask)
     
-    return masked_image, mask
+    return masked_image
 
 def rgb_calc(original_image: np.array, smoothed_image: np.array):
     
