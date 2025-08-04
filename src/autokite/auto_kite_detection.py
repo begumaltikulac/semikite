@@ -152,7 +152,7 @@ timestamps = find_timestamps(image_filenames)
     
 for original, timestamp in zip(image_filenames, timestamps):
     original = read_image(original)
-    cut_original,_ = cutting(original)
+    cut_original = cutting(original)
     smoothed_img = smoothing(original)
     cut_smoothed, _ = cutting(smoothed_img)
     rgb_difference = rgb_calc(cut_original, cut_smoothed)
