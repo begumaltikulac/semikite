@@ -75,7 +75,7 @@ def rgb_calc(original_image: np.array, smoothed_image: np.array):
     
     return total_diff
 
-def find_top_pixels(total_diff: np.array, top_n: int): 
+def find_top_pixels(total_diff: np.array, top_n: int) -> list:
     
     flat = total_diff.flatten()
     top_indices = np.argpartition(flat, -top_n)[-top_n:]
