@@ -174,5 +174,7 @@ for original, timestamp in zip(image_filenames, timestamps):
     highlighted_pic = visualize(pixel_coords, original)
     # save_image("Lex/new_img", highlighted_pic, f"{timestamp}")
     save_image("detected_images", highlighted_pic, f"{timestamp}")
+
+document_top_pixels(timestamps, coords_collection, "coordinates.txt")
     
     # plot_rgb_channel_differences(cut_original, cut_smoothed)  # COMMENT OUT IF ONE DOES NOT WANT TO PLOT THE CHANNEL DIFFERENCE
