@@ -3,13 +3,13 @@
     between images.
 """
 
+import json
 from os import listdir
 from os.path import isfile, join
 import re
 
 import cv2
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 
 
@@ -89,11 +89,9 @@ def document_top_pixels_as_txt(times: list, coords: dict, output_file: str) -> N
             f.write(f"\n")
 
 
-def document_top_pixels_as_csv(coords: dict, output_file: str) -> None:
-    df_coordinates = pd.DataFrame(
-        {"time": coords.keys(), "coordinates": coords.values()},
-    ).set_index("time")
-    df_coordinates.to_csv(output_file)
+def document_top_pixels_as_json(coords: dict, output_file: str) -> None:
+    with open(output_file, "w") as f:
+        json.dump(json, f)
     return
 
 

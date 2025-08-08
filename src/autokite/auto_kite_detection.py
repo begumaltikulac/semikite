@@ -18,7 +18,7 @@
 
 from functions_autokite import (
     cutting,
-    document_top_pixels_as_csv,
+    document_top_pixels_as_json,
     # document_top_pixels_as_txt,
     filenames_gen,
     find_timestamps,
@@ -46,12 +46,12 @@ for original, timestamp in zip(image_filenames, timestamps):
     cut_smoothed = cutting(smoothed_img)
     rgb_difference = rgb_calc(cut_original, cut_smoothed)
     pixel_coords = find_top_pixels(rgb_difference, n_pixel)
-    coords_collection[timestamp] = pixel_coords[0]  # only for the case if one top pixel is to be found
+    coords_collection[timestamp] = [pixel_coords[0]]  # only for the case if one top pixel is to be found
     highlighted_pic = visualize(pixel_coords, original)
     # save_image("Lex/new_img", highlighted_pic, f"{timestamp}")
     save_image("detected_images", highlighted_pic, f"{timestamp}")
 
 # document_top_pixels_as_txt(timestamps, coords_collection, "coordinates.txt")
-document_top_pixels_as_csv(coords_collection, output_file="coordinates.csv")
+document_top_pixels_as_json(coords_collection, output_file="coordinates.csv")
 
     # plot_rgb_channel_differences(cut_original, cut_smoothed)  # COMMENT OUT IF ONE DOES NOT WANT TO PLOT THE CHANNEL DIFFERENCE
