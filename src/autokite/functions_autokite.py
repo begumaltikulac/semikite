@@ -6,6 +6,7 @@
 import json
 from os import listdir
 from os.path import isfile, join
+import pickle
 import re
 
 import cv2
@@ -90,12 +91,12 @@ def document_top_pixels_as_txt(times: list, coords: dict, output_file: str) -> N
             f.write(f"\n")
 
 
-def document_top_pixels_as_json(coords: dict, output_file: str) -> None:
+def document_top_pixels_as_pickle(coords: dict, output_file: str) -> None:
     df_coordinates = pd.DataFrame(
         {"time": coords.keys(), "coordinates": coords.values()},
     ).set_index("time")
-    with open(output_file, "w") as f:
-        json.dump(df_coordinates, f)
+    with open(output_file, "wb") as f:
+        pickle.dump(df_coordinates, f)
     return
 
 

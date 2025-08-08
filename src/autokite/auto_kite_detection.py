@@ -18,7 +18,7 @@
 
 from functions_autokite import (
     cutting,
-    document_top_pixels_as_json,
+    document_top_pixels_as_pickle,
     # document_top_pixels_as_txt,
     filenames_gen,
     find_timestamps,
@@ -52,6 +52,6 @@ for original, timestamp in zip(image_filenames, timestamps):
     save_image("detected_images", highlighted_pic, f"{timestamp}")
 
 # document_top_pixels_as_txt(timestamps, coords_collection, "coordinates.txt")
-document_top_pixels_as_json(coords_collection, output_file="coordinates.json")
+document_top_pixels_as_pickle(coords_collection, output_file="coordinates.pckl")
 
     # plot_rgb_channel_differences(cut_original, cut_smoothed)  # COMMENT OUT IF ONE DOES NOT WANT TO PLOT THE CHANNEL DIFFERENCE
