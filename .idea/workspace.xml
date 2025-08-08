@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="326f9896-a83e-4cc0-9768-ee7274905f63" name="Changes" comment="no changes in workspace.xml">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/autokite/auto_kite_detection.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/autokite/auto_kite_detection.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
