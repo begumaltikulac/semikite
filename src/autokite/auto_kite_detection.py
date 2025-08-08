@@ -18,7 +18,8 @@
 
 from functions_autokite import (
     cutting,
-    document_top_pixels,
+    document_top_pixels_as_csv,
+    # document_top_pixels_as_txt,
     filenames_gen,
     find_timestamps,
     find_top_pixels,
