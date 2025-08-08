@@ -91,7 +91,7 @@ def document_top_pixels_as_txt(times: list, coords: dict, output_file: str) -> N
 
 def document_top_pixels_as_json(coords: dict, output_file: str) -> None:
     with open(output_file, "w") as f:
-        json.dump(json, f)
+        json.dump(coords, f)
     return
 
 

@@ -52,6 +52,6 @@ for original, timestamp in zip(image_filenames, timestamps):
     save_image("detected_images", highlighted_pic, f"{timestamp}")
 
 # document_top_pixels_as_txt(timestamps, coords_collection, "coordinates.txt")
-document_top_pixels_as_json(coords_collection, output_file="coordinates.csv")
+document_top_pixels_as_json(coords_collection, output_file="coordinates.json")
 
     # plot_rgb_channel_differences(cut_original, cut_smoothed)  # COMMENT OUT IF ONE DOES NOT WANT TO PLOT THE CHANNEL DIFFERENCE
