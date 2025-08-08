@@ -10,6 +10,7 @@ import re
 
 import cv2
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
 
@@ -90,8 +91,11 @@ def document_top_pixels_as_txt(times: list, coords: dict, output_file: str) -> N
 
 
 def document_top_pixels_as_json(coords: dict, output_file: str) -> None:
+    df_coordinates = pd.DataFrame(
+        {"time": coords.keys(), "coordinates": coords.values()},
+    ).set_index("time")
     with open(output_file, "w") as f:
-        json.dump(coords, f)
+        json.dump(df_coordinates, f)
     return
 
 
