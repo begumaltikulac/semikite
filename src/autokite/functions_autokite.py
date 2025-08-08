@@ -72,7 +72,7 @@ def find_top_pixels(total_diff: np.array, top_n: int) -> list:
     return top_coords
 
 
-def document_top_pixels(times: list, coords: dict, output_file: str) -> None:
+def document_top_pixels_as_txt(times: list, coords: dict, output_file: str) -> None:
     with open(output_file, "w"):
         pass
     with open(output_file, "a") as f:
