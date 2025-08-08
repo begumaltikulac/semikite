@@ -93,7 +93,7 @@ def document_top_pixels_as_txt(times: list, coords: dict, output_file: str) -> N
 
 def document_top_pixels_as_pickle(coords: dict, output_file: str) -> None:
     df_coordinates = pd.DataFrame(
-        {"time": coords.keys(), "coordinates": coords.values()},
+        {"time": coords.keys(), "coordinates [x,y]": coords.values()},
     ).set_index("time")
     with open(output_file, "wb") as f:
         pickle.dump(df_coordinates, f)
