@@ -46,7 +46,7 @@ for original, timestamp in zip(image_filenames, timestamps):
     cut_smoothed = cutting(smoothed_img)
     rgb_difference = rgb_calc(cut_original, cut_smoothed)
     pixel_coords = find_top_pixels(rgb_difference, n_pixel)
-    coords_collection[timestamp] = [pixel_coords[0]]  # only for the case if one top pixel is to be found
+    coords_collection[timestamp] = pixel_coords[0]  # only for the case if one top pixel is to be found
     highlighted_pic = visualize(pixel_coords, original)
     # save_image("Lex/new_img", highlighted_pic, f"{timestamp}")
     save_image("detected_images", highlighted_pic, f"{timestamp}")
