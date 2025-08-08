@@ -9,6 +9,7 @@ import re
 
 import cv2
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
 
@@ -84,6 +85,13 @@ def document_top_pixels_as_txt(times: list, coords: dict, output_file: str) -> N
                 for c in coords[time]:
                     f.write(f"{c}\n")
             f.write(f"\n")
+
+
+def document_top_pixels_as_csv(coords: dict, output_file: str) -> None:
+    df_coordinates = pd.DataFrame(
+        {"time": coords.keys(), "coordinates": coords.values()},
+    ).set_index("time")
+    df_coordinates.to_csv(output_file)
 
 
 def visualize(coordinates: np.array, original_image: np.array):
