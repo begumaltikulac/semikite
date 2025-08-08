@@ -92,6 +92,7 @@ def document_top_pixels_as_csv(coords: dict, output_file: str) -> None:
         {"time": coords.keys(), "coordinates": coords.values()},
     ).set_index("time")
     df_coordinates.to_csv(output_file)
+    return
 
 
 def visualize(coordinates: np.array, original_image: np.array):
