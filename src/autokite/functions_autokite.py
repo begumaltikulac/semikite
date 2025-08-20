@@ -156,7 +156,14 @@ def plot_rgb_channel_differences(original_image: np.array, smoothed_image: np.ar
     plt.show()
 
 
-def pixel_to_sky_angles(x: int, y: int, cx: int, cy: int, r_max: int, projection: str ='equidistant') -> (int, int):
+def pixel_to_sky_angles(
+        x: int,
+        y: int,
+        cx: int = 960,
+        cy: int = 960,
+        r_max: int = 960,
+        projection: str ='equidistant'
+) -> (int, int):
     """
     Converts pixel coordinates (x, y) from a fisheye image to sky angles (zenith θ and azimuth φ).
 
