@@ -1,10 +1,16 @@
 import matplotlib
-matplotlib.use('TkAgg')  # <- important command for GUI window
-
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+import sys
+import os
 
-image_paths = ['FE4_Image_20160901_115500_UTCp1.jpg']
+sys.path.append("../autokite") # add the autokite directory to this file, to use the other functions
+from functions_autokite import document_top_pixels_as_pickle
+
+matplotlib.use('TkAgg')  # <- important command for GUI window
+
+file_names = os.listdir("images")
+image_paths = ['images/FE4_Image_20160901_114200_UTCp1.jpg']
 
 clicked_coord = []
 
@@ -29,3 +35,8 @@ if clicked_coord:
     print("Saved coordinates:", clicked_coord)
 else:
     print("It did not work.")
+
+print(file_names)
+
+# use this function:
+#document_top_pixels_as_pickle
