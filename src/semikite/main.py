@@ -4,16 +4,23 @@ import matplotlib.image as mpimg
 import sys
 import os
 
-sys.path.append("../autokite") # add the autokite directory to this file, to use the other functions
-from functions_autokite import document_top_pixels_as_pickle
+#sys.path.append("../autokite") # add the autokite directory to this file, to use the other functions
+
+# !!! still need to correctly import the functions
+from functions_autokite import document_top_pixels_as_pickle, find_timestamps
+#from ..autokite.functions_autokite import document_top_pixels_as_pickle, find_timestamps
+#from ../autokite/functions_autokite import document_top_pixels_as_pickle, find_timestamps
 
 matplotlib.use('TkAgg')  # <- important command for GUI window
 
 file_names = os.listdir("images")
+#files_names_path = ['images/' + f for f in file_names]
 image_paths = ['images/FE4_Image_20160901_114200_UTCp1.jpg']
 
 clicked_coord = []
 
+timestamps = find_timestamps(file_names)
+print(timestamps)
 def onclick(event):
     global clicked_coord
     if event.xdata is not None and event.ydata is not None:
