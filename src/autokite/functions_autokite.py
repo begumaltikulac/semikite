@@ -156,48 +156,6 @@ def plot_rgb_channel_differences(original_image: np.array, smoothed_image: np.ar
     plt.show()
 
 
-def pixel_to_sky_angles(
-        x: int,
-        y: int,
-        cx: int = 960,
-        cy: int = 960,
-        r_max: int = 960,
-        projection: str ='equidistant'
-) -> (int, int):
-    """
-    Converts pixel coordinates (x, y) from a fisheye image to sky angles (zenith θ and azimuth φ).
-
-    Args:
-        :param x: Kite's x coordinate.
-        :param y: Kite's y coordinate.
-        :param cx: Fisheye camera's x coordinate.
-        :param cy: Fisheye camera's y coordinate.
-        :param r_max: Max radius of fisheye image.
-        :param projection: Projection of fisheye image (default is "equidistant").
-
-    Returns:
-        theta: Zenith angle in degrees (0° = zenith, 90° = horizon)
-        phi: Azimuth angle in degrees (0° = right/east, 90° = up/north, 180° = left/west, etc.)
-    """
-
-    dx = x - cx
-    dy = y - cy
-    r = np.sqrt(dx ** 2 + dy ** 2)
-
-    # Convert to zenith angle θ based on projection model
-    if projection == 'equidistant':
-        # r_max corresponds to θ = 90°
-        theta = (r / r_max) * (np.pi / 2)
-    else:
-        raise NotImplementedError(f"Projection model '{projection}' not implemented.")
-
-    # Azimuth angle φ
-    phi = np.arctan2(-dy, dx)  # negative dy to match image coordinates
-    phi = np.degrees(phi) % 360  # Convert to degrees and normalize
-
-    return np.degrees(theta), phi
-
-
 def pixel_to_angles_with_height(
         x: int,
         y: int,
