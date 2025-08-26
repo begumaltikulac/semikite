@@ -302,4 +302,4 @@ def pixel_to_world_with_altitude(
     r_xy = np.sqrt(new_x**2 + new_y**2)
     theta_corr = np.degrees(np.arctan2(r_xy, new_z))
 
-    return theta_corr, phi_deg, (new_x, new_y, new_z)
+    return int(theta_corr), int(phi_deg), (new_x, new_y, new_z)
