@@ -198,7 +198,7 @@ def pixel_to_sky_angles(
     return np.degrees(theta), phi
 
 
-def pixel_to_world_with_altitude(
+def pixel_to_angles_with_height(
         x: int,
         y: int,
         cx: int = 960,
