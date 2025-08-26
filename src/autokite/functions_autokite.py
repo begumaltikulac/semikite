@@ -201,10 +201,10 @@ def pixel_to_sky_angles(
 def pixel_to_angles_with_height(
         x: int,
         y: int,
+        altitude: float,
         cx: int = 960,
         cy: int = 960,
         r_max: int = 960,
-        altitude: int = 960,
         projection: str = 'equidistant',
 ) -> (int, int, (float, float, float)):
     """
