@@ -206,7 +206,7 @@ def pixel_to_world_with_altitude(
         r_max: int = 960,
         altitude: int = 960,
         projection: str = 'equidistant',
-):
+) -> (int, int, (float, float, float)):
     """
     Convert a fisheye pixel coordinate into real-world coordinates at a known altitude.
 
