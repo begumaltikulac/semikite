@@ -196,3 +196,110 @@ def pixel_to_sky_angles(
     phi = np.degrees(phi) % 360  # Convert to degrees and normalize
 
     return np.degrees(theta), phi
+
+
+def pixel_to_world_with_altitude(
+        x: int,
+        y: int,
+        cx: int = 960,
+        cy: int = 960,
+        r_max: int = 960,
+        altitude: int = 960,
+        projection: str = 'equidistant',
+):
+    """
+    Convert a fisheye pixel coordinate into real-world coordinates at a known altitude.
+
+    This function assumes the camera is pointing upward (towards the sky) and uses a
+    fisheye projection model to map pixel coordinates into a 3D direction vector.
+    Given the real-world altitude of the object (above the camera), the function extends
+    the ray until it intersects the horizontal plane at that altitude.
+
+    Parameters
+    ----------
+    x : float
+        X-coordinate (column index) of the pixel in the image (in pixels).
+    y : float
+        Y-coordinate (row index) of the pixel in the image (in pixels).
+    cx : float
+        X-coordinate of the fisheye image center (in pixels).
+    cy : float
+        Y-coordinate of the fisheye image center (in pixels).
+    r_max : float
+        Radius of the fisheye projection circle in pixels.
+        This corresponds to a zenith angle of 90° (the horizon).
+    altitude : float
+        Known altitude of the object above the camera (in meters).
+    projection : str, optional
+        Fisheye projection model. Currently only supports "equidistant".
+        Default is "equidistant".
+
+    Returns
+    -------
+    theta : float
+        Zenith angle of the object in degrees.
+        - 0° = directly overhead (zenith, positive Z-axis).
+        - 90° = on the horizon.
+    phi : float
+        Azimuth angle of the object in degrees, in the range 0 to 359.
+        - 0° = east (right in image coordinates).
+        - 90° = north (up in image coordinates).
+        - 180° = west (left).
+        - 270° = south (down).
+    position : tuple of float
+        Real-world Cartesian coordinates (X, Y, Z) of the object in **meters**
+        relative to the camera origin (0, 0, 0).
+        - X points east (right).
+        - Y points north (up).
+        - Z points up (zenith).
+        The returned Z value will equal the given `altitude`.
+
+    Raises
+    ------
+    ValueError
+        If the computed ray points below the horizon (vz <= 0),
+        making altitude intersection impossible.
+
+    Notes
+    -----
+    - Input values are in **pixels** for image coordinates and **meters** for altitude.
+    - Output angles are in **degrees**, and output coordinates are in **meters**.
+    - The camera is assumed to be located at the origin (0,0,0) with its optical
+      axis pointing upward (positive Z).
+    - No lens distortion correction is applied. For high-precision results,
+      intrinsic calibration parameters should be used (e.g., OpenCV fisheye model).
+
+    """
+    dx = x - cx
+    dy = y - cy
+    r = np.sqrt(dx**2 + dy**2)
+
+    # Pixel distance -> zenith angle θ
+    if projection == 'equidistant':
+        theta = (r / r_max) * (np.pi / 2)  # 0..90°
+    else:
+        raise NotImplementedError(f"Projection '{projection}' not implemented.")
+
+    # Azimuth φ
+    phi = np.arctan2(-dy, dx)  # negative dy for image coords
+    phi_deg = np.degrees(phi) % 360
+
+    # Direction vector from camera
+    vx = np.cos(phi) * np.sin(theta)
+    vy = np.sin(phi) * np.sin(theta)
+    vz = np.cos(theta)
+
+    if vz <= 0:
+        raise ValueError("Object ray points below horizon. Altitude intersection impossible.")
+
+    # Scale ray so Z = altitude
+    scale = altitude / vz
+    new_x = vx * scale
+    new_y = vy * scale
+    new_z = vz * scale  # should equal altitude
+
+    # Recompute corrected zenith (since now we know real-world Z)
+    r_xy = np.sqrt(new_x**2 + new_y**2)
+    theta_corr = np.degrees(np.arctan2(r_xy, new_z))
+
+    return theta_corr, phi_deg, (new_x, new_y, new_z)
