@@ -11,7 +11,7 @@ from src.autokite.functions_autokite import document_top_pixels_as_pickle, find_
 
 file_names = os.listdir("images")
 files_names_path = ['images/' + f for f in file_names]
-trial_files = files_names_path[:5]
+#trial_files = files_names_path[:5]
 #image_paths = ['images/FE4_Image_20160901_114200_UTCp1.jpg']
 
 clicked_coord = []
@@ -23,12 +23,11 @@ def onclick(event):
     if event.xdata is not None and event.ydata is not None:
         x = int(event.xdata)
         y = int(event.ydata)
-        clicked_coord.append([x,y])
+        clicked_coord.append([y,x])
         #print(f"Coordinates: x={x}, y={y}")
         plt.close()
-    return x,y
 
-for index, path in enumerate(trial_files):
+for index, path in enumerate(files_names_path):
     img = mpimg.imread(path)
     time_loop = timestamps[index]
     fig, ax = plt.subplots(figsize=(15,25))
@@ -40,7 +39,7 @@ for index, path in enumerate(trial_files):
         coords_semikite[time_loop] = clicked_coord[-1]
 
 # save the coordinates as pickle file
-document_top_pixels_as_pickle(coords_semikite, output_file="coordinates_semikite.pckl")
+document_top_pixels_as_pickle(coords_semikite, output_file="coordinates_semikite_yx.pckl")
 
 if clicked_coord:
     print("Saved coordinates:", clicked_coord)
