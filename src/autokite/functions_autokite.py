@@ -48,12 +48,18 @@ def smoothing(image: np.array):
     return smoothed_pic
 
 
-def cutting(image: np.array) -> np.array:
+def cutting(image: np.array, radius_frac: float = 0.8, top_fraction: float = 0.15) -> np.array:
     height, width = image.shape[:2]
     center = (width // 2, height // 2)
-    radius = int(min(center) * 0.81)
+    radius = int(min(center) * radius_frac)
     mask = np.zeros((height, width), dtype=np.uint8)
+
+    # Create circular mask
     cv2.circle(mask, center, radius, 255, -1)
+    # Mask out top part
+    top_cutoff = int(height * top_fraction)
+    cv2.rectangle(mask, (0, 0), (width, top_cutoff), 0, -1)
+
     masked_image = cv2.bitwise_and(image, image, mask=mask)
 
     return masked_image
