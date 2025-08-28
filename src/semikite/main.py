@@ -47,7 +47,7 @@ else:
     print("It did not work.")
 
 
-print('Finished')
+print('Finished ..')
 
 
 # use this function:
