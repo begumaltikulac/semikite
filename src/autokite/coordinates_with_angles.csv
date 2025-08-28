@@ -1,4 +1,4 @@
-time,coordinates,elevation,azimuth
+time,"coordinates [x,y]",elevation,azimuth
 20160901_114000,"[255, 635]",73,155
 20160901_114100,"[742, 556]",43,118
 20160901_114200,"[510, 738]",47,154
