@@ -1,6 +1,7 @@
 import pickle
 import sys
 import numpy as np
+import matplotlib.pyplot as plt
 from collections import Counter
 
 sys.path.append("../autokite")
@@ -23,7 +24,7 @@ times = coordinates_autokite.index.tolist()
 times_kite_found = []
 for time in times:
     coords2 = coordinates_semikite.loc[time, "coordinates [x,y]"]
-    x2, y2 = coords2
+    y2, x2 = coords2
     if (x2 > 15) and (y2 > 15):
         times_kite_found.append(time)
 
@@ -65,3 +66,7 @@ for time in times:
 # count True and False values for kite found times
 counts = Counter(equality_kite_found.values())
 print(counts)
+
+plt.pie(counts.values(), labels=["Matching Results", "Non-Matching Results"], autopct="%1.1f%%", colors=["green", "red"])
+plt.title("Auto-Recognition vs. Manual Recognition (Mobile Camera 2016) ")
+plt.show()

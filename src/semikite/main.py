@@ -9,8 +9,8 @@ sys.path.append("../autokite") # add the autokite directory to this file, to use
 
 from src.autokite.functions_autokite import document_top_pixels_as_pickle, find_timestamps
 
-file_names = os.listdir("Images_2025_08_27")
-files_names_path = ['Images_2025_08_27/' + f for f in file_names]
+file_names = os.listdir("images")
+files_names_path = ['images/' + f for f in file_names]
 #trial_files = files_names_path[:5]
 #image_paths = ['images/FE4_Image_20160901_114200_UTCp1.jpg']
 
@@ -39,7 +39,7 @@ for index, path in enumerate(files_names_path):
         coords_semikite[time_loop] = clicked_coord[-1]
 
 # save the coordinates as pickle file
-document_top_pixels_as_pickle(coords_semikite, output_file="coordinates_2025_08_27.pckl")
+document_top_pixels_as_pickle(coords_semikite, output_file="coordinates_2016.pckl")
 
 if clicked_coord:
     print("Saved coordinates:", clicked_coord)
