@@ -31,11 +31,12 @@ from functions_autokite import (
 )
 
 #%%
-PATH = "../../fisheye_cam_building_202508271100_202508271200"  # Change according to image folder path
+DATE = "20250829"
+PATH = f"images_{DATE}"  # Change according to image folder path
 # PATH = Path("Lex/test_pics")
 n_pixel = 1  # number of pixel to be detected
 radius_cut = 0.9
-top_cut = 0.8
+top_cut = 0.2
 
 image_filenames = filenames_gen(PATH)
 timestamps = find_timestamps(image_filenames)
@@ -51,9 +52,10 @@ for original, timestamp in zip(image_filenames, timestamps):
     coords_collection[timestamp] = pixel_coords[0]  # only for the case if one top pixel is to be found
     highlighted_pic = visualize(pixel_coords, original)
     # save_image("Lex/new_img", highlighted_pic, f"{timestamp}")
-    save_image("LEX_detected_images", highlighted_pic, f"{timestamp}")
+    # save_image("LEX_detected_images/20250829", cut_original, f"cut_{timestamp}")
+    save_image(f"LEX_detected_images/{DATE}", highlighted_pic, f"{timestamp}")
 
 # document_top_pixels_as_txt(timestamps, coords_collection, "coordinates.txt")
-document_top_pixels_as_pickle(coords_collection, output_file="LEX_coordinates.pckl")
+document_top_pixels_as_pickle(coords_collection, output_file=f"coordinates/coordinates_{DATE}.pckl")
 
     # plot_rgb_channel_differences(cut_original, cut_smoothed)  # COMMENT OUT IF ONE DOES NOT WANT TO PLOT THE CHANNEL DIFFERENCE
