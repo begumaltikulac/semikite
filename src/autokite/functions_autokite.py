@@ -78,7 +78,7 @@ def find_top_pixels(total_diff: np.array, top_n: int) -> list:
     top_indices = top_indices[np.argsort(-flat[top_indices])]  # Sort descending
     top_coords = [np.unravel_index(_index, total_diff.shape) for _index in top_indices]
 
-    top_coords = [[int(row), int(col)] for row, col in top_coords]
+    top_coords = [[int(col), int(row)] for row, col in top_coords]  # [x,y]
 
     return top_coords
 
@@ -193,6 +193,16 @@ def pixel_to_sky_angles(
     if projection == 'equidistant':
         # r_max corresponds to θ = 90°
         theta = (r / r_max) * (np.pi / 2)
+
+    elif projection == 'equisolid':
+        theta = 2 * np.arcsin(r / (2 * r_max))
+
+    elif projection == 'orthographic':  # spherical-like
+        theta = np.arcsin(r / r_max)
+
+    elif projection == 'stereographic':
+        theta = 2 * np.arctan(r / (2 * r_max))
+
     else:
         raise NotImplementedError(f"Projection model '{projection}' not implemented.")
 
