@@ -197,14 +197,11 @@ def pixel_to_sky_angles(
     elif projection == 'equisolid':
         theta = 2 * np.arcsin(r / (2 * r_max))
 
-    elif projection == 'orthographic':  # spherical-like
-        theta = np.arcsin(r / r_max)
+    # Ingo Lange's correction polynomial for the elevation angle 
+    theta = -6.380024219e-7*theta**4 + 1.384399783e-4*theta**3 - 1.122405179e-2*theta**2 + 1.326190211*theta+2.494295303
 
-    elif projection == 'stereographic':
-        theta = 2 * np.arctan(r / (2 * r_max))
-
-    theta = -6.380024219e-7 * theta ** 4 + 1.384399783e-4 * theta ** 3 \
-            - 1.122405179e-2 * theta ** 2 + 1.326190211 * theta + 2.494295303
+    theta = 90 - theta  # This conversion is necessary as the elevation angle is orientated to the horizon
+    # (outside ring)
 
     # Azimuth angle φ
     phi = np.arctan2(-dy, dx)  # negative dy to match image coordinates
