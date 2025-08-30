@@ -164,7 +164,6 @@ def plot_rgb_channel_differences(original_image: np.array, smoothed_image: np.ar
 def pixel_to_sky_angles(
         x: int,
         y: int,
-        projection: str,
         cx: int = 960,
         cy: int = 960,
         r_max: int = 960,
@@ -178,7 +177,6 @@ def pixel_to_sky_angles(
         :param cx: Fisheye camera's x coordinate.
         :param cy: Fisheye camera's y coordinate.
         :param r_max: Max radius of fisheye image.
-        :param projection: Projection of fisheye image (default is "equidistant").
 
     Returns:
         theta: Zenith angle in degrees (0° = zenith, 90° = horizon)
@@ -189,13 +187,10 @@ def pixel_to_sky_angles(
     dy = y - cy
     r = np.sqrt(dx ** 2 + dy ** 2)
 
-    # Convert to zenith angle θ based on projection model
-    if projection == 'equidistant':
-        # r_max corresponds to θ = 90°
-        theta = (r / r_max) * (np.pi / 2)
-
-    elif projection == 'equisolid':
-        theta = 2 * np.arcsin(r / (2 * r_max))
+    # For this project, we assume the fact that the elevation angle between the kite tether and the fisheye camera.
+    # Since the fisheye camera orientates to the north, the elevation angle is defined as the relative angle from
+    # the kite to the north most pixel in the image, i.e. (0, 960)
+    theta = np.rad2deg(np.arctan2(abs(x-960), 1920-y))
 
     # Ingo Lange's correction polynomial for the elevation angle 
     theta = -6.380024219e-7*theta**4 + 1.384399783e-4*theta**3 - 1.122405179e-2*theta**2 + 1.326190211*theta+2.494295303
