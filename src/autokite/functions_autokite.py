@@ -310,3 +310,11 @@ def pixel_to_angles_with_height(
     theta_corr = np.degrees(np.arctan2(r_xy, new_z))
 
     return int(theta_corr), int(phi_deg), (new_x, new_y, new_z)
+
+# TODO: Write function to check autokite accuracy
+# def check_pixel_accuracy(top_coords: dict):
+#     top_coords = top_coords.values()
+#     x = top_coords[0]
+#     y = top_coords[1]
+#
+#     return
