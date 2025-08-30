@@ -164,10 +164,10 @@ def plot_rgb_channel_differences(original_image: np.array, smoothed_image: np.ar
 def pixel_to_sky_angles(
         x: int,
         y: int,
+        projection: str,
         cx: int = 960,
         cy: int = 960,
         r_max: int = 960,
-        projection: str = 'equidistant'
 ) -> (float, float):
     """
     Converts pixel coordinates (x, y) from a fisheye image to sky angles (zenith θ and azimuth φ).
@@ -203,8 +203,8 @@ def pixel_to_sky_angles(
     elif projection == 'stereographic':
         theta = 2 * np.arctan(r / (2 * r_max))
 
-    else:
-        raise NotImplementedError(f"Projection model '{projection}' not implemented.")
+    theta = -6.380024219e-7 * theta ** 4 + 1.384399783e-4 * theta ** 3 \
+            - 1.122405179e-2 * theta ** 2 + 1.326190211 * theta + 2.494295303
 
     # Azimuth angle φ
     phi = np.arctan2(-dy, dx)  # negative dy to match image coordinates

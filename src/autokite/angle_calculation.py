@@ -19,7 +19,7 @@ heights = np.arange(40,100) # NOTE: The height information is still missing. We 
 
 # for coord, height in zip(coordinates["coordinates [x,y]"], heights):
 for coord in coordinates["coordinates [x,y]"]:
-    elevation, azimuth = pixel_to_sky_angles(coord[0], coord[1])
+    elevation, azimuth = pixel_to_sky_angles(coord[0], coord[1], projection="equidistant")
     all_elevation.append(int(round(elevation,0)))
     all_azimuth.append(int(round(azimuth,0)))
 
