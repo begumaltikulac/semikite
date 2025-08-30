@@ -207,7 +207,7 @@ def pixel_to_sky_angles(
     phi = np.arctan2(-dy, dx)  # negative dy to match image coordinates
     phi = np.degrees(phi) % 360  # Convert to degrees and normalize
 
-    return np.degrees(theta), phi
+    return theta, phi
 
 
 def pixel_to_angles_with_height(
