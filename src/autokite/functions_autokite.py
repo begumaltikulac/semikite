@@ -108,7 +108,7 @@ def document_top_pixels_as_pickle(coords: dict, output_file: str) -> None:
 
 def visualize(coordinates: np.array, original_image: np.array):
     highlight = original_image.copy()
-    for i, (y, x) in enumerate(coordinates):
+    for i, (x, y) in enumerate(coordinates):
         cv2.circle(highlight, (x, y), 5, (0, 0, 255), 2)
         cv2.putText(highlight, str(i + 1), (x + 6, y - 6),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
