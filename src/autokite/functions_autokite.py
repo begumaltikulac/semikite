@@ -193,6 +193,16 @@ def pixel_to_sky_angles(
     if projection == 'equidistant':
         # r_max corresponds to θ = 90°
         theta = (r / r_max) * (np.pi / 2)
+
+    elif projection == 'equisolid':
+        theta = 2 * np.arcsin(r / (2 * r_max))
+
+    elif projection == 'orthographic':  # spherical-like
+        theta = np.arcsin(r / r_max)
+
+    elif projection == 'stereographic':
+        theta = 2 * np.arctan(r / (2 * r_max))
+
     else:
         raise NotImplementedError(f"Projection model '{projection}' not implemented.")
 
