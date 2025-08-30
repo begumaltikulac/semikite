@@ -311,10 +311,23 @@ def pixel_to_angles_with_height(
 
     return int(theta_corr), int(phi_deg), (new_x, new_y, new_z)
 
-# TODO: Write function to check autokite accuracy
-# def check_pixel_accuracy(top_coords: dict):
-#     top_coords = top_coords.values()
-#     x = top_coords[0]
-#     y = top_coords[1]
-#
-#     return
+
+def check_false_detection(pixel_file: str):
+    with open(pixel_file, "rb") as f:
+        blab = pickle.load(f)
+
+    x = []
+    y = []
+    for element in blab["coordinates [x,y]"]:
+        x.append(element[0])
+        y.append(element[1])
+    x_mean = np.mean(x)
+    y_mean = np.mean(y)
+    x_deviation = x - x_mean
+    y_deviation = y - y_mean
+
+    blab["x_deviation"] = x_deviation
+    blab["y_deviation"] = y_deviation
+    blab["valid"] = (abs(x_deviation) < 250) & (abs(y_deviation) < 250)
+
+    return blab[blab["valid"]==False]
