@@ -31,9 +31,12 @@ from functions_autokite import (
 )
 
 #%%
-PATH = "../semikite/images"  # Change according to image folder path
+DATE = "20250829"
+PATH = f"images_{DATE}"  # Change according to image folder path
 # PATH = Path("Lex/test_pics")
 n_pixel = 1  # number of pixel to be detected
+radius_cut = 0.9
+top_cut = 0.2
 
 image_filenames = filenames_gen(PATH)
 timestamps = find_timestamps(image_filenames)
@@ -41,17 +44,18 @@ coords_collection = dict((time,0) for time in timestamps)
     
 for original, timestamp in zip(image_filenames, timestamps):
     original = read_image(original)
-    cut_original = cutting(original)
+    cut_original = cutting(original, radius_frac = radius_cut, top_fraction = top_cut)
     smoothed_img = smoothing(original)
-    cut_smoothed = cutting(smoothed_img)
+    cut_smoothed = cutting(smoothed_img, radius_frac = radius_cut, top_fraction = top_cut)
     rgb_difference = rgb_calc(cut_original, cut_smoothed)
     pixel_coords = find_top_pixels(rgb_difference, n_pixel)
     coords_collection[timestamp] = pixel_coords[0]  # only for the case if one top pixel is to be found
     highlighted_pic = visualize(pixel_coords, original)
     # save_image("Lex/new_img", highlighted_pic, f"{timestamp}")
-    save_image("detected_images", highlighted_pic, f"{timestamp}")
+    # save_image("LEX_detected_images/20250829", cut_original, f"cut_{timestamp}")
+    save_image(f"LEX_detected_images/{DATE}", highlighted_pic, f"{timestamp}")
 
 # document_top_pixels_as_txt(timestamps, coords_collection, "coordinates.txt")
-document_top_pixels_as_pickle(coords_collection, output_file="coordinates.pckl")
+document_top_pixels_as_pickle(coords_collection, output_file=f"coordinates/coordinates_{DATE}.pckl")
 
     # plot_rgb_channel_differences(cut_original, cut_smoothed)  # COMMENT OUT IF ONE DOES NOT WANT TO PLOT THE CHANNEL DIFFERENCE

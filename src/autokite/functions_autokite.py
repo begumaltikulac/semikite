@@ -48,12 +48,18 @@ def smoothing(image: np.array):
     return smoothed_pic
 
 
-def cutting(image: np.array) -> np.array:
+def cutting(image: np.array, radius_frac: float = 0.8, top_fraction: float = 0.15) -> np.array:
     height, width = image.shape[:2]
     center = (width // 2, height // 2)
-    radius = int(min(center) * 0.81)
+    radius = int(min(center) * radius_frac)
     mask = np.zeros((height, width), dtype=np.uint8)
+
+    # Create circular mask
     cv2.circle(mask, center, radius, 255, -1)
+    # Mask out top part
+    top_cutoff = int(height * top_fraction)
+    cv2.rectangle(mask, (0, 0), (width, top_cutoff), 0, -1)
+
     masked_image = cv2.bitwise_and(image, image, mask=mask)
 
     return masked_image
@@ -72,7 +78,7 @@ def find_top_pixels(total_diff: np.array, top_n: int) -> list:
     top_indices = top_indices[np.argsort(-flat[top_indices])]  # Sort descending
     top_coords = [np.unravel_index(_index, total_diff.shape) for _index in top_indices]
 
-    top_coords = [[int(row), int(col)] for row, col in top_coords]
+    top_coords = [[int(col), int(row)] for row, col in top_coords]  # [x,y]
 
     return top_coords
 
@@ -102,7 +108,7 @@ def document_top_pixels_as_pickle(coords: dict, output_file: str) -> None:
 
 def visualize(coordinates: np.array, original_image: np.array):
     highlight = original_image.copy()
-    for i, (y, x) in enumerate(coordinates):
+    for i, (x, y) in enumerate(coordinates):
         cv2.circle(highlight, (x, y), 5, (0, 0, 255), 2)
         cv2.putText(highlight, str(i + 1), (x + 6, y - 6),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
@@ -161,7 +167,6 @@ def pixel_to_sky_angles(
         cx: int = 960,
         cy: int = 960,
         r_max: int = 960,
-        projection: str = 'equidistant'
 ) -> (float, float):
     """
     Converts pixel coordinates (x, y) from a fisheye image to sky angles (zenith θ and azimuth φ).
@@ -172,7 +177,6 @@ def pixel_to_sky_angles(
         :param cx: Fisheye camera's x coordinate.
         :param cy: Fisheye camera's y coordinate.
         :param r_max: Max radius of fisheye image.
-        :param projection: Projection of fisheye image (default is "equidistant").
 
     Returns:
         theta: Zenith angle in degrees (0° = zenith, 90° = horizon)
@@ -183,18 +187,22 @@ def pixel_to_sky_angles(
     dy = y - cy
     r = np.sqrt(dx ** 2 + dy ** 2)
 
-    # Convert to zenith angle θ based on projection model
-    if projection == 'equidistant':
-        # r_max corresponds to θ = 90°
-        theta = (r / r_max) * (np.pi / 2)
-    else:
-        raise NotImplementedError(f"Projection model '{projection}' not implemented.")
+    # For this project, we assume the fact that the elevation angle between the kite tether and the fisheye camera.
+    # Since the fisheye camera orientates to the north, the elevation angle is defined as the relative angle from
+    # the kite to the north most pixel in the image, i.e. (0, 960)
+    theta = np.rad2deg(np.arctan2(abs(x-960), 1920-y))
+
+    # Ingo Lange's correction polynomial for the elevation angle 
+    theta = -6.380024219e-7*theta**4 + 1.384399783e-4*theta**3 - 1.122405179e-2*theta**2 + 1.326190211*theta+2.494295303
+
+    theta = 90 - theta  # This conversion is necessary as the elevation angle is orientated to the horizon
+    # (outside ring)
 
     # Azimuth angle φ
     phi = np.arctan2(-dy, dx)  # negative dy to match image coordinates
     phi = np.degrees(phi) % 360  # Convert to degrees and normalize
 
-    return np.degrees(theta), phi
+    return theta, phi
 
 
 def pixel_to_angles_with_height(
