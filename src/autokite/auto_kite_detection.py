@@ -35,8 +35,8 @@ from functions_autokite import (
 DATE = "20250901"
 SUBFOLDER = "theo_with_radiosonde_second_flight"  # "theo_with_no_radiosonde_first_flight"
 PATH = f"images_{DATE}/{SUBFOLDER}"  # Change according to image folder path
-coords_outfile = f"coordinates/coordinates_{DATE}_{SUBFOLDER}.pckl"
-detection_outfile = f"coordinates/false_detection_{DATE}_{SUBFOLDER}.csv"
+coords_outfile = f"coordinates/{DATE}/coordinates_{DATE}_{SUBFOLDER}.pckl"
+detection_outfile = f"coordinates/{DATE}/false_detection_{DATE}_{SUBFOLDER}.csv"
 
 n_pixel = 1  # number of pixel to be detected
 radius_cut = 0.87
