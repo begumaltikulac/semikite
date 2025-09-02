@@ -11,7 +11,6 @@ import pickle
 from functions_autokite import (
     open_theodolite,
     pixel_to_sky_angles,
-    # pixel_to_angles_with_height
 )
 DATE = "20250829"
 coords_outfile = f"coordinates/coordinates_{DATE}.pckl"
