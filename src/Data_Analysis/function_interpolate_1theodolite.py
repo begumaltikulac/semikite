@@ -5,36 +5,35 @@ from datetime import timedelta
 
 def process_lidar_1theodolite(lidar_file, theo_file, date_str, start_time_str, azimuth_offset=0.0):
     """
-    Liest Lidar- und Theodolit-Daten ein, schneidet den Lidar-Zeitbereich auf die Theodolit-Zeiten zu
-    und interpoliert die Lidar-Geschwindigkeit ('VEL') auf die Theodolit-Zeiten.
-
+    Reads Lidar and theodolite data, cuts the Lidar time range to the theodolite times
+    and interpolates the theodolite data to the Lidar times.
     Parameters
     ----------
     lidar_file : str
-        Pfad zur Lidar-NetCDF-Datei
+        path to Lidar-NetCDF file
     theo_file : str
-        Pfad zur Theodolit-ASCII-Datei
+        path to theodolite ASCII file
     date_str : str
-        Datum als 'YYYY-MM-DD'
+        date as 'YYYY-MM-DD'
     start_time_str : str
-        Startzeit (UTC+1 in Theodolit-Datei) als 'HH:MM:SS'
+        start time (UTC+1 in theodolite file) as 'HH:MM:SS'
     azimuth_offset : float, optional
-        Korrektur für Azimut (default 0.0)
+        correction for azimuth (default 0.0)
 
     Returns
     -------
-    df_theo : pandas.DataFrame
-        Theodolit-Daten mit UTC-Zeiten
-    ws_interp : xarray.DataArray
-        Interpolierte Lidar-Daten ('VEL') auf Theodolit-Zeiten
+    theo_interp : pandas.DataFrame
+        interpolated theodolite data at Lidar times
+    ds_lidar_cut : xarray.DataArray
+        lidar data ('VEL') with UTC times
     """
 
-    # --- Theodolit einlesen ---
+    # --- Read theodolite data ---
     start_time = pd.to_datetime(date_str + " " + start_time_str)
 
     with open(theo_file, "r") as f:
         lines = f.readlines()
-    lines = lines[:-3]  # letzte drei Zeilen verwerfen
+    lines = lines[:-3]  # discard the last three lines
 
     time_sec, value1, value2 = [], [], []
     for line in lines:
@@ -56,21 +55,19 @@ def process_lidar_1theodolite(lidar_file, theo_file, date_str, start_time_str, a
         "elevation": value2
     })
 
-    # --- Lidar einlesen ---
+    # --- Read lidar data ---
     ds_lidar = xr.open_dataset(lidar_file)
 
-    # Zuschneiden auf Theodolit-Zeitbereich
+    # Crop to theodolite time range
     t_start, t_end = df_theo["time_sec"].iloc[0], df_theo["time_sec"].iloc[-1]
     ds_lidar_cut = ds_lidar.sel(time=slice(t_start, t_end))
+    lidar_idx = ds_lidar_cut['time']
 
     ds_theo = df_theo.to_xarray()
     ds_theo = ds_theo.set_coords("time_sec")
-    ds_theo = ds_theo.swap_dims({"index": "time_sec"})  # "index" durch die aktuelle Dimension ersetzen
+    ds_theo = ds_theo.swap_dims({"index": "time_sec"})  # replace "index" with the current dimension
 
+    # interpolation
     theo_interp = ds_theo.interp(time_sec=lidar_idx)
 
-    # Interpolation
-    theo_idx = df_theo["time_sec"].to_numpy()
-    ws_interp = ds_lidar_cut["VEL"].interp(time=theo_idx)
-
-    return df_theo, ws_interp
+    return ds_lidar_cut, theo_interp
