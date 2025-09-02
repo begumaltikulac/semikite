@@ -331,3 +331,39 @@ def check_false_detection(pixel_file: str):
     blab["valid"] = (abs(x_deviation) < 250) & (abs(y_deviation) < 250)
 
     return blab[blab["valid"]==False]
+
+
+def open_theodolite(file: str, obs_date: str, start_time: str) -> pd.DataFrame:
+    start_time = pd.to_datetime(f"{obs_date} {start_time}")
+
+    # Read all lines first
+    with open(file, "r") as f:
+        theo_all = f.readlines()
+    # Skip last three lines
+    # theo_all = theo_all[:-3]
+
+    time_sec = []
+    azimuth = []
+    elevation = []
+
+    for line in theo_all:
+        line = line.strip()
+        if line.startswith("D") or line.startswith("E"):  # data line
+            parts = line.split()
+            time_sec.append(float(parts[1]))
+            azimuth.append(float(parts[2]))
+            elevation.append(float(parts[3]))
+        # elif line.startswith("S"):
+            # print("Metadata:", line)  # optional
+
+    df_theo = pd.DataFrame({
+        "time_sec": [start_time + timedelta(seconds=s) for s in time_sec],
+        "azimuth": azimuth,
+        "elevation": elevation
+    })
+
+    return df_theo
+
+test = open_theodolite(file="theodolite_data/TheoGelb_20250829_124013.txt", obs_date="2025-08-29", start_time="10:31:08")
+plt.figure()
+plt.plot(test["elevation"])
