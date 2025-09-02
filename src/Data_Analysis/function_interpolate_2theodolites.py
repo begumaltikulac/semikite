@@ -63,12 +63,6 @@ def process_lidar_1theodolite(lidar_file, theo_file, date_str, start_time_str, a
     t_start, t_end = df_theo["time_sec"].iloc[0], df_theo["time_sec"].iloc[-1]
     ds_lidar_cut = ds_lidar.sel(time=slice(t_start, t_end))
 
-    ds_theo = df_theo.to_xarray()
-    ds_theo = ds_theo.set_coords("time_sec")
-    ds_theo = ds_theo.swap_dims({"index": "time_sec"})  # "index" durch die aktuelle Dimension ersetzen
-
-    theo_interp = ds_theo.interp(time_sec=lidar_idx)
-
     # Interpolation
     theo_idx = df_theo["time_sec"].to_numpy()
     ws_interp = ds_lidar_cut["VEL"].interp(time=theo_idx)
