@@ -36,7 +36,7 @@ DATE = "20250829"
 PATH = f"images_{DATE}"  # Change according to image folder path
 # PATH = Path("Lex/test_pics")
 n_pixel = 1  # number of pixel to be detected
-radius_cut = 0.9
+radius_cut = 0.87
 top_cut = 0.2
 
 image_filenames = filenames_gen(PATH)
