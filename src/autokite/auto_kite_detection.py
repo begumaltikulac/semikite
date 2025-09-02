@@ -17,6 +17,7 @@
 #%%
 
 from functions_autokite import (
+    check_false_detection,
     cutting,
     document_top_pixels_as_pickle,
     # document_top_pixels_as_txt,
@@ -31,27 +32,34 @@ from functions_autokite import (
 )
 
 #%%
-PATH = "../semikite/images"  # Change according to image folder path
-# PATH = Path("Lex/test_pics")
+DATE = "20250901"
+SUBFOLDER = "theo_with_radiosonde_second_flight"  # "theo_with_no_radiosonde_first_flight"
+PATH = f"images_{DATE}/{SUBFOLDER}"  # Change according to image folder path
+coords_outfile = f"coordinates/coordinates_{DATE}_{SUBFOLDER}.pckl"
+detection_outfile = f"coordinates/false_detection_{DATE}_{SUBFOLDER}.csv"
+
 n_pixel = 1  # number of pixel to be detected
+radius_cut = 0.87
+top_cut = 0.2
 
 image_filenames = filenames_gen(PATH)
 timestamps = find_timestamps(image_filenames)
 coords_collection = dict((time,0) for time in timestamps)
-    
+
 for original, timestamp in zip(image_filenames, timestamps):
     original = read_image(original)
-    cut_original = cutting(original)
+    cut_original = cutting(original, radius_frac = radius_cut, top_fraction = top_cut)
     smoothed_img = smoothing(original)
-    cut_smoothed = cutting(smoothed_img)
+    cut_smoothed = cutting(smoothed_img, radius_frac = radius_cut, top_fraction = top_cut)
     rgb_difference = rgb_calc(cut_original, cut_smoothed)
     pixel_coords = find_top_pixels(rgb_difference, n_pixel)
     coords_collection[timestamp] = pixel_coords[0]  # only for the case if one top pixel is to be found
     highlighted_pic = visualize(pixel_coords, original)
-    # save_image("Lex/new_img", highlighted_pic, f"{timestamp}")
-    save_image("detected_images", highlighted_pic, f"{timestamp}")
+    # save_image("LEX_detected_images/20250829", cut_original, f"cut_{timestamp}")
+    save_image(f"LEX_detected_images/{DATE}", highlighted_pic, f"{timestamp}")
 
-# document_top_pixels_as_txt(timestamps, coords_collection, "coordinates.txt")
-document_top_pixels_as_pickle(coords_collection, output_file="coordinates.pckl")
-
-    # plot_rgb_channel_differences(cut_original, cut_smoothed)  # COMMENT OUT IF ONE DOES NOT WANT TO PLOT THE CHANNEL DIFFERENCE
+document_top_pixels_as_pickle(coords_collection, output_file=coords_outfile)
+df_false_detection = check_false_detection(coords_outfile)
+df_false_detection.to_csv(
+    detection_outfile,
+)
