@@ -34,12 +34,8 @@ coordinates["elevation"] = all_elevation
 coordinates["azimuth"] = all_azimuth
 # coordinates.to_csv(outcsv_name)
 
-theo = open_theodolite(file="theodolite_data/TheoGelb_20250829_124013.txt", obs_date="2025-08-29", start_time="10:31:08")
-theo_elevation = theo["elevation"]
-autokite_elevation = coordinates["elevation"]
-
-plt.figure(dpi=150)
-plt.plot(theo_elevation, label="yellow theodolite")
-plt.plot(autokite_elevation, label="autokite")
-plt.legend()
-plt.show()
+# plt.figure(dpi=150)
+# plt.plot(theo_elevation, label="yellow theodolite")
+# plt.plot(autokite_elevation, label="autokite")
+# plt.legend()
+# plt.show()
