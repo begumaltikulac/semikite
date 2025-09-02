@@ -30,7 +30,6 @@ for coord in coordinates["coordinates [x,y]"]:
     elevation, azimuth = pixel_to_sky_angles(coord[0], coord[1])
     all_elevation.append(int(round(elevation,0)))
     all_azimuth.append(int(round(azimuth,0)))
-
 coordinates["elevation"] = all_elevation
 coordinates["azimuth"] = all_azimuth
 # coordinates.to_csv(outcsv_name)
