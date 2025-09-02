@@ -10,6 +10,7 @@ import pickle
 import re
 
 import cv2
+from datetime import timedelta
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -161,48 +162,53 @@ def plot_rgb_channel_differences(original_image: np.array, smoothed_image: np.ar
     plt.tight_layout()
     plt.show()
 
+
 def pixel_to_sky_angles(
-        x: int,
-        y: int,
-        cx: int = 960,
-        cy: int = 960,
-        r_max: int = 960,
-) -> (float, float):
+    x,
+    y,
+    cx=960,
+    cy=960,
+    r_max=960
+):
     """
-    Converts pixel coordinates (x, y) from a fisheye image to sky angles (zenith θ and azimuth φ).
+    Convert fisheye pixel (x,y) to (elevation, azimuth) using your diagram’s rings.
 
-    Args:
-        :param x: Kite's x coordinate.
-        :param y: Kite's y coordinate.
-        :param cx: Fisheye camera's x coordinate.
-        :param cy: Fisheye camera's y coordinate.
-        :param r_max: Max radius of fisheye image.
+    Elevation is derived directly from radial distance:
+      - 90° at center (zenith),
+      - 0° at rim (horizon).
+    Azimuth matches your compass:
+      - 0° = W, 90° = N, 180° = E, 270° = S.
 
-    Returns:
-        theta: Zenith angle in degrees (0° = zenith, 90° = horizon)
-        phi: Azimuth angle in degrees (0° = right/east, 90° = up/north, 180° = left/west, etc.)
+    Parameters
+    ----------
+    x, y : int or float
+        Pixel coordinates.
+    cx, cy : int or float
+        Image center (default: 960,960 for 1920×1920).
+    r_max : float
+        Radius from center to horizon (default: 960).
+
+    Returns
+    -------
+    elevation_deg : float
+        Elevation angle in degrees, rounded to 2 decimals.
+    azimuth_deg : float
+        Azimuth angle in degrees, rounded to 2 decimals.
     """
-
     dx = x - cx
     dy = y - cy
-    r = np.sqrt(dx ** 2 + dy ** 2)
+    r = np.hypot(dx, dy)
 
-    # For this project, we assume the fact that the elevation angle between the kite tether and the fisheye camera.
-    # Since the fisheye camera orientates to the north, the elevation angle is defined as the relative angle from
-    # the kite to the north most pixel in the image, i.e. (0, 960)
-    theta = np.rad2deg(np.arctan2(abs(x-960), 1920-y))
+    # --- Elevation from ring position ---
+    theta = 90.0 * (1 - (r / r_max))
 
     # Ingo Lange's correction polynomial for the elevation angle 
     theta = -6.380024219e-7*theta**4 + 1.384399783e-4*theta**3 - 1.122405179e-2*theta**2 + 1.326190211*theta+2.494295303
 
-    theta = 90 - theta  # This conversion is necessary as the elevation angle is orientated to the horizon
-    # (outside ring)
-
     # Azimuth angle φ
-    phi = np.arctan2(-dy, dx)  # negative dy to match image coordinates
-    phi = np.degrees(phi) % 360  # Convert to degrees and normalize
+    phi = np.degrees(np.arctan2(-dy, dx)) % 360  # negative dy to match image coordinates
 
-    return theta, phi
+    return round(theta, 2), round(phi, 2)
 
 
 def pixel_to_angles_with_height(
