@@ -5,6 +5,7 @@
     relative to the fisheye camera.
 """
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pickle
 
