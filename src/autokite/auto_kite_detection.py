@@ -55,5 +55,8 @@ for original, timestamp in zip(image_filenames, timestamps):
     # save_image("LEX_detected_images/20250829", cut_original, f"cut_{timestamp}")
     save_image(f"LEX_detected_images/{DATE}", highlighted_pic, f"{timestamp}")
 
-document_top_pixels_as_pickle(coords_collection, output_file=f"coordinates/coordinates_{DATE}.pckl")
-print(check_false_detection(f"coordinates/coordinates_{DATE}.pckl"))
+document_top_pixels_as_pickle(coords_collection, output_file=coords_outfile)
+df_false_detection = check_false_detection(coords_outfile)
+df_false_detection.to_csv(
+    detection_outfile,
+)
