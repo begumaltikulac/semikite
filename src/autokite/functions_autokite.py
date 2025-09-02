@@ -369,7 +369,3 @@ def open_theodolite(file: str, obs_date: str, start_time: str) -> pd.DataFrame:
     })
 
     return df_theo
-
-test = open_theodolite(file="theodolite_data/TheoGelb_20250829_124013.txt", obs_date="2025-08-29", start_time="10:31:08")
-plt.figure()
-plt.plot(test["elevation"])
