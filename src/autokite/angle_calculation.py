@@ -23,7 +23,6 @@ SUBFOLDER = "theo_with_no_radiosonde_first_flight"  # "theo_with_no_radiosonde_f
 
 all_elevation = []
 all_azimuth = []
-heights = np.arange(40,100) # NOTE: The height information is still missing. We need that information from the radiosondes
 
 with open(coords_outfile, "rb") as f:
     coordinates = pickle.load(f)
