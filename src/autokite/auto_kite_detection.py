@@ -42,7 +42,7 @@ top_cut = 0.2
 image_filenames = filenames_gen(PATH)
 timestamps = find_timestamps(image_filenames)
 coords_collection = dict((time,0) for time in timestamps)
-    
+
 for original, timestamp in zip(image_filenames, timestamps):
     original = read_image(original)
     cut_original = cutting(original, radius_frac = radius_cut, top_fraction = top_cut)
