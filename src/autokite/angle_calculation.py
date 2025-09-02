@@ -26,8 +26,6 @@ all_azimuth = []
 
 with open(coords_outfile, "rb") as f:
     coordinates = pickle.load(f)
-
-# for coord, height in zip(coordinates["coordinates [x,y]"], heights):
 for coord in coordinates["coordinates [x,y]"]:
     elevation, azimuth = pixel_to_sky_angles(coord[0], coord[1])
     all_elevation.append(int(round(elevation,0)))
