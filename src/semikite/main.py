@@ -11,7 +11,7 @@ from src.autokite.functions_autokite import document_top_pixels_as_pickle, find_
 DATE = "20250901"
 SUBFOLDER = "morning"
 
-matplotlib.use('TkAgg')  # <- important command for GUI window
+matplotlib.use('Qt5Agg')  # <- important command for GUI window
 REL_PATH_AUTOKITE = "../autokite"
 # add the autokite directory to this file, to use the other functions
 sys.path.append(REL_PATH_AUTOKITE)
