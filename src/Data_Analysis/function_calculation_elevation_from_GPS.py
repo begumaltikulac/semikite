@@ -13,8 +13,8 @@ def process_elevation_gps(
     output_csv: str,
 ):
     """
-    Calculates the elevation angle from GPS data, theodolite start time,
-    lidar time series, and altitude data. Results are saved as CSV.
+    Calculates the elevation angle from GPS data. Uses theodolite start time,
+    and lidar timesteps, and altitude data calculated from the pressure. Results are saved as CSV.
 
     Parameters
     ----------
