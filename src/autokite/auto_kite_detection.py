@@ -42,7 +42,7 @@ coords_outfile = f"coordinates/{DATE}/coordinates_{DATE}_{SUBFOLDER}.pckl"
 detection_outfile = f"coordinates/{DATE}/false_detection_{DATE}_{SUBFOLDER}.csv"
 
 n_pixel = 1  # number of pixel to be detected
-radius_cut = 0.87
+radius_cut = 0.8
 top_cut = 0.2
 
 image_filenames = filenames_gen(PATH)
