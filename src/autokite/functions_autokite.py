@@ -318,7 +318,7 @@ def pixel_to_angles_with_height(
     return int(theta_corr), int(phi_deg), (new_x, new_y, new_z)
 
 
-def check_false_detection(pixel_file: str):
+def check_false_detection(pixel_file: str, mean_deviation: int, y_dev_threshold: int) -> pd.DataFrame:
     with open(pixel_file, "rb") as f:
         blab = pickle.load(f)
 
@@ -327,6 +327,9 @@ def check_false_detection(pixel_file: str):
     for element in blab["coordinates [x,y]"]:
         x.append(element[0])
         y.append(element[1])
+    x = np.array(x)
+    y = np.array(y)
+
     x_mean = np.mean(x)
     y_mean = np.mean(y)
     x_deviation = x - x_mean
@@ -334,7 +337,9 @@ def check_false_detection(pixel_file: str):
 
     blab["x_deviation"] = x_deviation
     blab["y_deviation"] = y_deviation
-    blab["valid"] = (abs(x_deviation) < 250) & (abs(y_deviation) < 250)
+    blab["valid"] = (y > y_dev_threshold) | ((abs(x_deviation) < mean_deviation) & (abs(y_deviation) < mean_deviation))
+    #  y_dev_threshold checks in which part of the image the kite is. This applies to when the wind direction is known
+    #  apriori
 
     return blab[blab["valid"]==False]
 

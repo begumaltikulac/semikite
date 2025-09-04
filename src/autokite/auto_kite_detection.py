@@ -32,14 +32,17 @@ from functions_autokite import (
 )
 
 #%%
-DATE = "20250901"
-SUBFOLDER = "theo_with_radiosonde_second_flight"  # "theo_with_no_radiosonde_first_flight"
+DATE = "20250903"
+# SUBFOLDER = "theo_with_radiosonde_second_flight"  # "theo_with_no_radiosonde_first_flight"  FOR 20250901
+SUBFOLDER = "afternoon"
+pixel_threshold = 250
+y_threshold = 1100
 PATH = f"images_{DATE}/{SUBFOLDER}"  # Change according to image folder path
 coords_outfile = f"coordinates/{DATE}/coordinates_{DATE}_{SUBFOLDER}.pckl"
 detection_outfile = f"coordinates/{DATE}/false_detection_{DATE}_{SUBFOLDER}.csv"
 
 n_pixel = 1  # number of pixel to be detected
-radius_cut = 0.87
+radius_cut = 0.8
 top_cut = 0.2
 
 image_filenames = filenames_gen(PATH)
@@ -59,7 +62,7 @@ for original, timestamp in zip(image_filenames, timestamps):
     save_image(f"LEX_detected_images/{DATE}", highlighted_pic, f"{timestamp}")
 
 document_top_pixels_as_pickle(coords_collection, output_file=coords_outfile)
-df_false_detection = check_false_detection(coords_outfile)
+df_false_detection = check_false_detection(coords_outfile, mean_deviation = pixel_threshold, y_dev_threshold = y_threshold)
 df_false_detection.to_csv(
     detection_outfile,
 )
