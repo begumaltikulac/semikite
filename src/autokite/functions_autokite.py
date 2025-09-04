@@ -318,7 +318,7 @@ def pixel_to_angles_with_height(
     return int(theta_corr), int(phi_deg), (new_x, new_y, new_z)
 
 
-def check_false_detection(pixel_file: str):
+def check_false_detection(pixel_file: str, mean_deviation: int, y_dev_threshold: int) -> pd.DataFrame:
     with open(pixel_file, "rb") as f:
         blab = pickle.load(f)
 
