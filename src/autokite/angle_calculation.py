@@ -12,8 +12,8 @@ from functions_autokite import (
     pixel_to_sky_angles,
 )
 
-DATE = "20250903"
-theo_start_date = "2025-09-03"
+DATE = "20250901"
+theo_start_date = "2025-09-01"
 
 for SUBFOLDER in ["morning","afternoon"]:
     all_elevation = []
@@ -31,23 +31,22 @@ for SUBFOLDER in ["morning","afternoon"]:
     coordinates.to_csv(outcsv_name)
 
 """ 20250901 exclusive
-# SUBFOLDER = "theo_with_no_radiosonde_first_flight" SUBFOLDER = "theo_with_radiosonde_second_flight"  FOR 20250901
+"""
+SUBFOLDER = "morning"
 for theo_start_time, theo_file, color in zip(
-    # ["10:03:20", "10:03:20"],
-    # ["theodolite_data/TheoGelb_20250901_100320.td4", "theodolite_data/TheoRot_20250901_100320.td4"],
-    ["13:17:08", "13:17:09"],
-    ["theodolite_data/TheoGelb_20250901_131708.txt", "theodolite_data/TheoRot_20250901_131709.txt"],
+    ["10:03:20", "10:03:20"],
+    ["theodolite_data/TheoGelb_20250901_100320.td4", "theodolite_data/TheoRot_20250901_100320.td4"],
+    # ["13:17:08", "13:17:09"],
+    # ["theodolite_data/TheoGelb_20250901_131708.txt", "theodolite_data/TheoRot_20250901_131709.txt"],
     ["yellow", "red"],
 ):
-
     theo = open_theodolite(file=theo_file, obs_date=theo_start_date, start_time=theo_start_time)
     theo.to_csv(f"coordinates/{DATE}/{color}_theodolite_angles_{DATE}_{SUBFOLDER}.csv")
-"""
 
-for theo_start_time, theo_file, SUBFOLDER in zip(
-    ["10:49:09", "14:43:17"],
-    [f"theodolite_data/TheoGelb_{DATE}_104909.txt", f"theodolite_data/TheoGElb_{DATE}_144217.txt"],
-    ["morning", "afternoon"],
-):
-    theo = open_theodolite(file=theo_file, obs_date=theo_start_date, start_time=theo_start_time)
-    theo.to_csv(f"coordinates/{DATE}/theodolite_angles_{DATE}_{SUBFOLDER}.csv")
+# for theo_start_time, theo_file, SUBFOLDER in zip(
+#     ["10:49:09", "14:43:17"],
+#     [f"theodolite_data/TheoGelb_{DATE}_104909.txt", f"theodolite_data/TheoGElb_{DATE}_144217.txt"],
+#     ["morning", "afternoon"],
+# ):
+#     theo = open_theodolite(file=theo_file, obs_date=theo_start_date, start_time=theo_start_time)
+#     theo.to_csv(f"coordinates/{DATE}/theodolite_angles_{DATE}_{SUBFOLDER}.csv")
