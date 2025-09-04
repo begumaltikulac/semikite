@@ -32,8 +32,11 @@ from functions_autokite import (
 )
 
 #%%
-DATE = "20250901"
-SUBFOLDER = "theo_with_radiosonde_second_flight"  # "theo_with_no_radiosonde_first_flight"
+DATE = "20250903"
+# SUBFOLDER = "theo_with_radiosonde_second_flight"  # "theo_with_no_radiosonde_first_flight"  FOR 20250901
+SUBFOLDER = "afternoon"
+pixel_threshold = 250
+y_threshold = 1100
 PATH = f"images_{DATE}/{SUBFOLDER}"  # Change according to image folder path
 coords_outfile = f"coordinates/{DATE}/coordinates_{DATE}_{SUBFOLDER}.pckl"
 detection_outfile = f"coordinates/{DATE}/false_detection_{DATE}_{SUBFOLDER}.csv"
