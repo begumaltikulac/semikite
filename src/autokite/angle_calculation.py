@@ -12,10 +12,8 @@ from functions_autokite import (
     pixel_to_sky_angles,
 )
 
-DATE = "20250901"
-# coords_outfile = f"coordinates/coordinates_{DATE}.pckl"
-# outcsv_name = f"coordinates/coordinates_with_angles_{DATE}.csv"
-theo_start_date = "2025-09-01"
+DATE = "20250903"
+theo_start_date = "2025-09-03"
 
 # SUBFOLDER = "theo_with_no_radiosonde_first_flight"
 SUBFOLDER = "theo_with_radiosonde_second_flight"
