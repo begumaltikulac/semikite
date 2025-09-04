@@ -62,7 +62,7 @@ for original, timestamp in zip(image_filenames, timestamps):
     save_image(f"LEX_detected_images/{DATE}", highlighted_pic, f"{timestamp}")
 
 document_top_pixels_as_pickle(coords_collection, output_file=coords_outfile)
-df_false_detection = check_false_detection(coords_outfile)
+df_false_detection = check_false_detection(coords_outfile, mean_deviation = pixel_threshold, y_dev_threshold = y_threshold)
 df_false_detection.to_csv(
     detection_outfile,
 )
