@@ -5,7 +5,6 @@
     relative to the fisheye camera.
 """
 
-import matplotlib.pyplot as plt
 import pickle
 
 from functions_autokite import (
