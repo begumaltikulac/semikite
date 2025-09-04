@@ -30,6 +30,8 @@ for SUBFOLDER in ["morning","afternoon"]:
     coordinates["azimuth"] = all_azimuth
     coordinates.to_csv(outcsv_name)
 
+""" 20250901 exclusive
+# SUBFOLDER = "theo_with_no_radiosonde_first_flight" SUBFOLDER = "theo_with_radiosonde_second_flight"  FOR 20250901
 for theo_start_time, theo_file, color in zip(
     # ["10:03:20", "10:03:20"],
     # ["theodolite_data/TheoGelb_20250901_100320.td4", "theodolite_data/TheoRot_20250901_100320.td4"],
