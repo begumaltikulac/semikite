@@ -44,18 +44,10 @@ for theo_start_time, theo_file, color in zip(
     theo.to_csv(f"coordinates/{DATE}/{color}_theodolite_angles_{DATE}_{SUBFOLDER}.csv")
 """
 
-with open(coords_outfile, "rb") as f:
-    coordinates = pickle.load(f)
-for coord in coordinates["coordinates [x,y]"]:
-    elevation, azimuth = pixel_to_sky_angles(coord[0], coord[1])
-    all_elevation.append(int(round(elevation,0)))
-    all_azimuth.append(int(round(azimuth,0)))
-coordinates["elevation"] = all_elevation
-coordinates["azimuth"] = all_azimuth
-# coordinates.to_csv(outcsv_name)
-
-# plt.figure(dpi=150)
-# plt.plot(theo_elevation, label="yellow theodolite")
-# plt.plot(autokite_elevation, label="autokite")
-# plt.legend()
-# plt.show()
+for theo_start_time, theo_file, SUBFOLDER in zip(
+    ["10:49:09", "14:43:17"],
+    [f"theodolite_data/TheoGelb_{DATE}_104909.txt", f"theodolite_data/TheoGElb_{DATE}_144217.txt"],
+    ["morning", "afternoon"],
+):
+    theo = open_theodolite(file=theo_file, obs_date=theo_start_date, start_time=theo_start_time)
+    theo.to_csv(f"coordinates/{DATE}/theodolite_angles_{DATE}_{SUBFOLDER}.csv")
