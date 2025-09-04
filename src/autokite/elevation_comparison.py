@@ -12,11 +12,15 @@ DATE = "20250901"
 SUBFOLDER = "morning"
 semikite_filename = f"coordinates/{DATE}/coordinates_semikite_20250901_morning.pckl"
 
+# theodolite part
 theodolite = pd.read_csv(f'coordinates/{DATE}/yellow_theodolite_angles_{DATE}_{SUBFOLDER}.csv')[::2].reset_index(drop=True)
 theo_elevation = theodolite["elevation"]
+
+# autokite part
 autokite = pd.read_csv(f'coordinates/{DATE}/coordinates_with_angles_{DATE}_{SUBFOLDER}.csv')
 autokite.set_index('time', inplace=True)
 
+# semikite part
 with open(semikite_filename, "rb") as f:
     semikite = pickle.load(f)
 semikite_all_elevation = []
@@ -29,13 +33,12 @@ for coord in semikite_coordinates:
 semikite["elevation"] = semikite_all_elevation
 semikite["azimuth"] = semikite_all_azimuth
 
+# semikite merging with autokite
 autokite.update(semikite)
 autokite.reset_index(inplace=True)
 autokite_elevation = autokite["elevation"]
 
-mean_diff = abs(np.mean(theo_elevation) - np.mean(autokite_elevation))
-rmse = np.sqrt(((theo_elevation-autokite_elevation)**2).mean())
-
+# plotting part
 plt.figure(dpi=150)
 plt.plot(theo_elevation, label="yellow theodolite")
 plt.plot(autokite_elevation, label="autokite")
@@ -43,6 +46,9 @@ plt.legend()
 plt.title(f"elevation comparison of launch {DATE} {SUBFOLDER}")
 plt.show()
 
+# statistical data calculation part
+mean_diff = abs(np.mean(theo_elevation) - np.mean(autokite_elevation))
+rmse = np.sqrt(((theo_elevation-autokite_elevation)**2).mean())
 print(f"The mean angle difference is: {mean_diff}")
 print(f"The rmse is {rmse}.")
 print(f"The correlation between two measurement is: {theo_elevation.corr(autokite_elevation)}")
