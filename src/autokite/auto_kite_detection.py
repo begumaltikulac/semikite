@@ -32,37 +32,36 @@ from functions_autokite import (
 )
 
 #%%
-DATE = "20250903"
-# SUBFOLDER = "theo_with_radiosonde_second_flight"  # "theo_with_no_radiosonde_first_flight"  FOR 20250901
-SUBFOLDER = "afternoon"
+DATE = "20250901"
 pixel_threshold = 250
-y_threshold = 1100
-PATH = f"images_{DATE}/{SUBFOLDER}"  # Change according to image folder path
-coords_outfile = f"coordinates/{DATE}/coordinates_{DATE}_{SUBFOLDER}.pckl"
-detection_outfile = f"coordinates/{DATE}/false_detection_{DATE}_{SUBFOLDER}.csv"
-
+y_threshold = 1000
 n_pixel = 1  # number of pixel to be detected
-radius_cut = 0.8
+radius_cut = 0.87
 top_cut = 0.2
 
-image_filenames = filenames_gen(PATH)
-timestamps = find_timestamps(image_filenames)
-coords_collection = dict((time,0) for time in timestamps)
+for SUBFOLDER in ["morning", "afternoon"]:
+    PATH = f"images_{DATE}/{SUBFOLDER}"  # Change according to image folder path
+    coords_outfile = f"coordinates/{DATE}/coordinates_{DATE}_{SUBFOLDER}.pckl"
+    detection_outfile = f"coordinates/{DATE}/false_detection_{DATE}_{SUBFOLDER}.csv"
+    image_filenames = filenames_gen(PATH)
+    timestamps = find_timestamps(image_filenames)
+    coords_collection = dict((time, 0) for time in timestamps)
 
-for original, timestamp in zip(image_filenames, timestamps):
-    original = read_image(original)
-    cut_original = cutting(original, radius_frac = radius_cut, top_fraction = top_cut)
-    smoothed_img = smoothing(original)
-    cut_smoothed = cutting(smoothed_img, radius_frac = radius_cut, top_fraction = top_cut)
-    rgb_difference = rgb_calc(cut_original, cut_smoothed)
-    pixel_coords = find_top_pixels(rgb_difference, n_pixel)
-    coords_collection[timestamp] = pixel_coords[0]  # only for the case if one top pixel is to be found
-    highlighted_pic = visualize(pixel_coords, original)
-    # save_image("LEX_detected_images/20250829", cut_original, f"cut_{timestamp}")
-    save_image(f"LEX_detected_images/{DATE}", highlighted_pic, f"{timestamp}")
+    for original, timestamp in zip(image_filenames, timestamps):
+        original = read_image(original)
+        cut_original = cutting(original, radius_frac=radius_cut, top_fraction=top_cut)
+        smoothed_img = smoothing(original)
+        cut_smoothed = cutting(smoothed_img, radius_frac=radius_cut, top_fraction=top_cut)
+        rgb_difference = rgb_calc(cut_original, cut_smoothed)
+        pixel_coords = find_top_pixels(rgb_difference, n_pixel)
+        coords_collection[timestamp] = pixel_coords[0]  # only for the case if one top pixel is to be found
+        highlighted_pic = visualize(pixel_coords, original)
+        # save_image("LEX_detected_images/20250829", cut_original, f"cut_{timestamp}")
+        save_image(f"LEX_detected_images/{DATE}", highlighted_pic, f"{timestamp}")
 
-document_top_pixels_as_pickle(coords_collection, output_file=coords_outfile)
-df_false_detection = check_false_detection(coords_outfile, mean_deviation = pixel_threshold, y_dev_threshold = y_threshold)
-df_false_detection.to_csv(
-    detection_outfile,
-)
+    document_top_pixels_as_pickle(coords_collection, output_file=coords_outfile)
+    df_false_detection = check_false_detection(coords_outfile, mean_deviation=pixel_threshold,
+                                               y_dev_threshold=y_threshold)
+    df_false_detection.to_csv(
+        detection_outfile,
+    )
