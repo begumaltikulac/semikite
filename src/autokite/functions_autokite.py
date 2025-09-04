@@ -327,6 +327,9 @@ def check_false_detection(pixel_file: str):
     for element in blab["coordinates [x,y]"]:
         x.append(element[0])
         y.append(element[1])
+    x = np.array(x)
+    y = np.array(y)
+
     x_mean = np.mean(x)
     y_mean = np.mean(y)
     x_deviation = x - x_mean
