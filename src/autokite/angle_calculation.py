@@ -42,9 +42,7 @@ for theo_start_time, theo_file, color in zip(
 
     theo = open_theodolite(file=theo_file, obs_date=theo_start_date, start_time=theo_start_time)
     theo.to_csv(f"coordinates/{DATE}/{color}_theodolite_angles_{DATE}_{SUBFOLDER}.csv")
-
-all_elevation = []
-all_azimuth = []
+"""
 
 with open(coords_outfile, "rb") as f:
     coordinates = pickle.load(f)
