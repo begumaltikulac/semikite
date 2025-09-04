@@ -11,8 +11,6 @@ from src.autokite.functions_autokite import document_top_pixels_as_pickle, find_
 
 file_names = os.listdir("images")
 files_names_path = ['images/' + f for f in file_names]
-#trial_files = files_names_path[:5]
-#image_paths = ['images/FE4_Image_20160901_114200_UTCp1.jpg']
 
 clicked_coord = []
 timestamps = find_timestamps(file_names)
