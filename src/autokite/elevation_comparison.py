@@ -13,7 +13,7 @@ SUBFOLDER = "morning"
 semikite_filename = f"coordinates/{DATE}/coordinates_semikite_20250901_morning.pckl"
 
 # theodolite part
-theodolite = pd.read_csv(f'coordinates/{DATE}/yellow_theodolite_angles_{DATE}_{SUBFOLDER}.csv')[14::2].reset_index(drop=True)
+theodolite = pd.read_csv(f'coordinates/{DATE}/yellow_theodolite_angles_{DATE}_{SUBFOLDER}.csv')[::2].reset_index(drop=True)
 theodolite.set_index('time_sec', drop=True, inplace=True)
 theodolite.index = pd.to_datetime(theodolite.index, format="%Y-%m-%d %H:%M:%S")
 theo_elevation = theodolite["elevation"]
