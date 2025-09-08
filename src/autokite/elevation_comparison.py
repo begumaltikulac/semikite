@@ -1,4 +1,6 @@
+from datetime import timedelta
 import matplotlib
+import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -12,11 +14,16 @@ DATE = "20250901"
 SUBFOLDER = "morning"
 semikite_filename = f"coordinates/{DATE}/coordinates_semikite_20250901_morning.pckl"
 
+# theodolite part
 theodolite = pd.read_csv(f'coordinates/{DATE}/yellow_theodolite_angles_{DATE}_{SUBFOLDER}.csv')[::2].reset_index(drop=True)
+theodolite.set_index('time_sec', drop=True, inplace=True)
+theodolite.index = pd.to_datetime(theodolite.index, format="%Y-%m-%d %H:%M:%S")
+theodolite.index += timedelta(minutes=1)
 theo_elevation = theodolite["elevation"]
-autokite = pd.read_csv(f'coordinates/{DATE}/coordinates_with_angles_{DATE}_{SUBFOLDER}.csv')
-autokite.set_index('time', inplace=True)
 
+# autokite part
+autokite = pd.read_csv(f'coordinates/{DATE}/coordinates_with_angles_{DATE}_{SUBFOLDER}.csv')
+# semikite part
 with open(semikite_filename, "rb") as f:
     semikite = pickle.load(f)
 semikite_all_elevation = []
@@ -29,20 +36,39 @@ for coord in semikite_coordinates:
 semikite["elevation"] = semikite_all_elevation
 semikite["azimuth"] = semikite_all_azimuth
 
+# semikite merging with autokite
 autokite.update(semikite)
 autokite.reset_index(inplace=True)
+autokite.set_index('time', drop=True, inplace=True)
+autokite.index = pd.to_datetime(autokite.index, format="%Y%m%d_%H%M%S")
 autokite_elevation = autokite["elevation"]
 
-mean_diff = abs(np.mean(theo_elevation) - np.mean(autokite_elevation))
-rmse = np.sqrt(((theo_elevation-autokite_elevation)**2).mean())
+# GPS
+gps = pd.read_csv(f'gps_results/{DATE}_{SUBFOLDER}.csv')
+gps.set_index('time', drop=True, inplace=True)
+gps.index = pd.to_datetime(gps.index)
+gps.index += timedelta(hours=1)
+gps_elevation = gps["elevation_angle"]
 
-plt.figure(dpi=150)
-plt.plot(theo_elevation, label="yellow theodolite")
-plt.plot(autokite_elevation, label="autokite")
+# plotting part
+fig, ax = plt.subplots(figsize=(12, 4), dpi=150)
+ax.plot(theo_elevation, label="yellow theodolite")
+ax.plot(autokite_elevation, label="autokite")
+ax.plot(gps_elevation, label="gps")
+ax.set_xticks(list(autokite.index)[0::100])
+ax.set_xlabel('time (CEST)')
+ax.set_ylabel('elevation angle (deg)')
+ax.xaxis.set_major_locator(mdates.MinuteLocator(interval=8))
+ax.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M"))
+ax.yaxis.grid(True)
 plt.legend()
-plt.title(f"elevation comparison of launch {DATE} {SUBFOLDER}")
+plt.title(f"elevation angle comparison for the launch starting at {DATE} 10:04:20 CEST")
+plt.savefig(f"elevation_angle_comparison_{DATE}_{SUBFOLDER}.png", dpi=150)
 plt.show()
 
+# statistical data calculation part
+mean_diff = abs(np.mean(theo_elevation) - np.mean(autokite_elevation))
+rmse = np.sqrt(((theo_elevation-autokite_elevation)**2).mean())
 print(f"The mean angle difference is: {mean_diff}")
 print(f"The rmse is {rmse}.")
 print(f"The correlation between two measurement is: {theo_elevation.corr(autokite_elevation)}")
