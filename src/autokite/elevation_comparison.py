@@ -41,6 +41,13 @@ autokite.set_index('time', drop=True, inplace=True)
 autokite.index = pd.to_datetime(autokite.index, format="%Y%m%d_%H%M%S")
 autokite_elevation = autokite["elevation"]
 
+# GPS
+gps = pd.read_csv(f'gps_results/{DATE}_{SUBFOLDER}.csv')
+gps.set_index('time', drop=True, inplace=True)
+gps.index = pd.to_datetime(gps.index)
+gps.index += timedelta(hours=1)
+gps_elevation = gps["elevation_angle"]
+
 # plotting part
 plt.figure(dpi=150)
 plt.plot(theo_elevation, label="yellow theodolite")
