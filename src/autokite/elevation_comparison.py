@@ -36,6 +36,8 @@ semikite["azimuth"] = semikite_all_azimuth
 # semikite merging with autokite
 autokite.update(semikite)
 autokite.reset_index(inplace=True)
+autokite.set_index('time', drop=True, inplace=True)
+autokite.index = pd.to_datetime(autokite.index, format="%Y%m%d_%H%M%S")
 autokite_elevation = autokite["elevation"]
 
 # plotting part
