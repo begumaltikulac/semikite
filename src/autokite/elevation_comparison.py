@@ -20,8 +20,6 @@ theo_elevation = theodolite["elevation"]
 
 # autokite part
 autokite = pd.read_csv(f'coordinates/{DATE}/coordinates_with_angles_{DATE}_{SUBFOLDER}.csv')
-autokite.set_index('time', inplace=True)
-
 # semikite part
 with open(semikite_filename, "rb") as f:
     semikite = pickle.load(f)
