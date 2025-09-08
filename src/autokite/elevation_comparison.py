@@ -16,6 +16,7 @@ semikite_filename = f"coordinates/{DATE}/coordinates_semikite_20250901_morning.p
 theodolite = pd.read_csv(f'coordinates/{DATE}/yellow_theodolite_angles_{DATE}_{SUBFOLDER}.csv')[::2].reset_index(drop=True)
 theodolite.set_index('time_sec', drop=True, inplace=True)
 theodolite.index = pd.to_datetime(theodolite.index, format="%Y-%m-%d %H:%M:%S")
+theodolite.index += timedelta(minutes=1)
 theo_elevation = theodolite["elevation"]
 
 # autokite part
