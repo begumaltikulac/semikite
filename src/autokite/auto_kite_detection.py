@@ -56,7 +56,6 @@ for SUBFOLDER in ["morning", "afternoon"]:
         pixel_coords = find_top_pixels(rgb_difference, n_pixel)
         coords_collection[timestamp] = pixel_coords[0]  # only for the case if one top pixel is to be found
         highlighted_pic = visualize(pixel_coords, original)
-        # save_image("LEX_detected_images/20250829", cut_original, f"cut_{timestamp}")
         save_image(f"LEX_detected_images/{DATE}", highlighted_pic, f"{timestamp}")
 
     document_top_pixels_as_pickle(coords_collection, output_file=coords_outfile)
