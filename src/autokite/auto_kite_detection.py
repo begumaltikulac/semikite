@@ -33,7 +33,7 @@ from functions_autokite import (
 #%%
 DATE = "20250901"
 pixel_threshold = 250
-y_threshold = 1000
+y_threshold = 1150
 n_pixel = 1  # number of pixel to be detected
 radius_cut = 0.87
 top_cut = 0.2
