@@ -14,6 +14,7 @@ from functions_autokite import (
 
 DATE = "20250901"
 theo_start_date = "2025-09-01"
+colors = ["yellow", "red"]
 
 for SUBFOLDER in ["morning","afternoon"]:
     all_elevation = []
@@ -32,14 +33,22 @@ for SUBFOLDER in ["morning","afternoon"]:
 
 """ 20250901 exclusive
 """
-SUBFOLDER = "morning"
-for theo_start_time, theo_file, color in zip(
-    ["10:03:20", "10:03:20"],
-    ["theodolite_data/TheoGelb_20250901_100320.td4", "theodolite_data/TheoRot_20250901_100320.td4"],
-    # ["13:17:08", "13:17:09"],
-    # ["theodolite_data/TheoGelb_20250901_131708.txt", "theodolite_data/TheoRot_20250901_131709.txt"],
-    ["yellow", "red"],
-):
+if DATE == "20250901" and SUBFOLDER == "morning":
+    theo_start_times = ["10:03:20", "10:03:20"]
+    theo_files = [
+        "theodolite_data/TheoGelb_20250901_100320.td4",
+        "theodolite_data/TheoRot_20250901_100320.td4",
+    ]
+elif DATE == "20250901" and SUBFOLDER == "afternoon":
+    theo_start_times = ["13:17:08", "13:17:09"]
+    theo_files = [
+        "theodolite_data/TheoGelb_20250901_131708.txt",
+        "theodolite_data/TheoRot_20250901_131709.txt",
+    ]
+else:
+    raise ValueError(f"Unknown SUBFOLDER: {SUBFOLDER}")
+
+for theo_start_time, theo_file, color in zip(theo_start_times, theo_files, colors):
     theo = open_theodolite(file=theo_file, obs_date=theo_start_date, start_time=theo_start_time)
     theo.to_csv(f"coordinates/{DATE}/{color}_theodolite_angles_{DATE}_{SUBFOLDER}.csv")
 
