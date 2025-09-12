@@ -12,7 +12,7 @@ matplotlib.use("Qt5Agg")  # "TkAgg"
 
 DATE = "20250901"
 time_measured = "morning"
-semikite_filename = f"coordinates/{DATE}/coordinates_semikite_20250901_morning.pckl"
+semikite_filename = f"../semikite/coordinates_semikite_{DATE}_{time_measured}.pckl"
 
 # theodolite part
 theodolite = pd.read_csv(f'coordinates/{DATE}/yellow_theodolite_angles_{DATE}_{time_measured}.csv')[::2].reset_index(drop=True)
