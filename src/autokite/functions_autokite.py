@@ -279,9 +279,11 @@ def check_false_detection(pixel_file: str, mean_deviation: int, y_dev_threshold:
     x_deviation = x - x_mean
     y_deviation = y - y_mean
 
+    blab["x"] = x
+    blab["y"] = y
     blab["x_deviation"] = x_deviation
     blab["y_deviation"] = y_deviation
-    blab["valid"] = (y > y_dev_threshold) | ((abs(x_deviation) < mean_deviation) & (abs(y_deviation) < mean_deviation))
+    blab["valid"] = (blab["y"] > y_dev_threshold) & ((abs(x_deviation) < mean_deviation) & (abs(y_deviation) < mean_deviation))
     #  y_dev_threshold checks in which part of the image the kite is. This applies to when the wind direction is known
     #  apriori
 
