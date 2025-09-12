@@ -39,10 +39,10 @@ n_pixel = 1  # number of pixel to be detected
 radius_cut = 0.87
 top_cut = 0.2
 
-for SUBFOLDER in ["morning", "afternoon"]:
-    PATH = f"images_{DATE}/{SUBFOLDER}"  # Change according to image folder path
-    coords_outfile = f"coordinates/{DATE}/coordinates_{DATE}_{SUBFOLDER}.pckl"
-    detection_outfile = f"coordinates/{DATE}/false_detection_{DATE}_{SUBFOLDER}.csv"
+for time_measured in ["morning", "afternoon"]:
+    PATH = f"images_{DATE}/{time_measured}"  # Change according to image folder path
+    coords_outfile = f"coordinates/{DATE}/coordinates_{DATE}_{time_measured}.pckl"
+    detection_outfile = f"coordinates/{DATE}/false_detection_{DATE}_{time_measured}.csv"
     image_filenames = filenames_gen(PATH)
     timestamps = find_timestamps(image_filenames)
     coords_collection = dict((time, 0) for time in timestamps)

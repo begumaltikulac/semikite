@@ -11,18 +11,18 @@ from functions_autokite import pixel_to_sky_angles
 matplotlib.use("Qt5Agg")  # "TkAgg"
 
 DATE = "20250901"
-SUBFOLDER = "morning"
+time_measured = "morning"
 semikite_filename = f"coordinates/{DATE}/coordinates_semikite_20250901_morning.pckl"
 
 # theodolite part
-theodolite = pd.read_csv(f'coordinates/{DATE}/yellow_theodolite_angles_{DATE}_{SUBFOLDER}.csv')[::2].reset_index(drop=True)
+theodolite = pd.read_csv(f'coordinates/{DATE}/yellow_theodolite_angles_{DATE}_{time_measured}.csv')[::2].reset_index(drop=True)
 theodolite.set_index('time_sec', drop=True, inplace=True)
 theodolite.index = pd.to_datetime(theodolite.index, format="%Y-%m-%d %H:%M:%S")
 theodolite.index += timedelta(minutes=1)
 theo_elevation = theodolite["elevation"]
 
 # autokite part
-autokite = pd.read_csv(f'coordinates/{DATE}/coordinates_with_angles_{DATE}_{SUBFOLDER}.csv')
+autokite = pd.read_csv(f'coordinates/{DATE}/coordinates_with_angles_{DATE}_{time_measured}.csv')
 # semikite part
 with open(semikite_filename, "rb") as f:
     semikite = pickle.load(f)
@@ -44,7 +44,7 @@ autokite.index = pd.to_datetime(autokite.index, format="%Y%m%d_%H%M%S")
 autokite_elevation = autokite["elevation"]
 
 # GPS
-gps = pd.read_csv(f'gps_results/{DATE}_{SUBFOLDER}.csv')
+gps = pd.read_csv(f'gps_results/{DATE}_{time_measured}.csv')
 gps.set_index('time', drop=True, inplace=True)
 gps.index = pd.to_datetime(gps.index)
 gps.index += timedelta(hours=1)
@@ -63,7 +63,7 @@ ax.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M"))
 ax.yaxis.grid(True)
 plt.legend()
 plt.title(f"elevation angle comparison for the launch starting at {DATE} 10:04:20 CEST")
-plt.savefig(f"elevation_angle_comparison_{DATE}_{SUBFOLDER}.png", dpi=150)
+plt.savefig(f"elevation_angle_comparison_{DATE}_{time_measured}.png", dpi=150)
 plt.show()
 
 # statistical data calculation part
