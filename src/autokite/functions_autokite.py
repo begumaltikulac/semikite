@@ -84,20 +84,6 @@ def find_top_pixels(total_diff: np.array, top_n: int) -> list:
     return top_coords
 
 
-def document_top_pixels_as_txt(times: list, coords: dict, output_file: str) -> None:
-    with open(output_file, "w"):
-        pass
-    with open(output_file, "a") as f:
-        for time in times:
-            if isinstance(coords[time], int):
-                continue
-            else:
-                f.write(f"Kite at {time}: \n")
-                for c in coords[time]:
-                    f.write(f"{c}\n")
-            f.write(f"\n")
-
-
 def document_top_pixels_as_pickle(coords: dict, output_file: str) -> None:
     df_coordinates = pd.DataFrame(
         {"time": coords.keys(), "coordinates [x,y]": coords.values()},
