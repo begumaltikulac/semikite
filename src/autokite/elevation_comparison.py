@@ -63,7 +63,7 @@ ax.xaxis.set_major_locator(mdates.MinuteLocator(interval=8))
 ax.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M"))
 ax.yaxis.grid(True)
 plt.legend()
-plt.title(f"elevation angle comparison for the launch starting at {DATE} 10:04:20 CEST")
+plt.title(f"elevation angle comparison for the launch starting at {DATE} {time}")
 plt.savefig(f"elevation_angle_comparison_{DATE}_{time_measured}.png", dpi=150)
 plt.show()
 
