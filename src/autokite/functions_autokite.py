@@ -121,48 +121,6 @@ def save_image(path: str, image: np.array, _type: str):
     return cv2.imwrite(f"{path}/{_type}_image.jpg", image)
 
 
-def plot_difference_field(diff_field: np.array, title="Difference Field"):
-    plt.figure(figsize=(10, 8))
-    plt.imshow(diff_field, cmap='hot')  # or 'viridis', 'plasma', 'gray'
-    plt.colorbar(label='Pixel Difference')
-    plt.title(title)
-    plt.axis('off')
-    plt.show()
-
-    return
-
-
-def plot_rgb_channel_differences(original_image: np.array, smoothed_image: np.array):
-    diff = cv2.absdiff(smoothed_image, original_image)
-    b_diff, g_diff, r_diff = cv2.split(diff)
-    diffs = [r_diff, g_diff, b_diff]
-    titles = ['Red Channel Difference', 'Green Channel Difference', 'Blue Channel Difference']
-
-    fig, axs = plt.subplots(3, 1, figsize=(6, 18))
-    cmap = 'hot'
-
-    axs[0].imshow(r_diff, cmap=cmap)
-    axs[0].set_title('Red Channel Difference')
-    axs[0].axis('off')
-
-    axs[1].imshow(g_diff, cmap=cmap)
-    axs[1].set_title('Green Channel Difference')
-    axs[1].axis('off')
-
-    axs[2].imshow(b_diff, cmap=cmap)
-    axs[2].set_title('Blue Channel Difference')
-    axs[2].axis('off')
-
-    for ax, data, title in zip(axs, diffs, titles):
-        im = ax.imshow(data, cmap=cmap)
-        ax.set_title(title)
-        ax.axis('off')
-        plt.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
-
-    plt.tight_layout()
-    plt.show()
-
-
 def pixel_to_sky_angles(
     x,
     y,
