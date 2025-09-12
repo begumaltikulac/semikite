@@ -20,7 +20,6 @@ from functions_autokite import (
     check_false_detection,
     cutting,
     document_top_pixels_as_pickle,
-    # document_top_pixels_as_txt,
     filenames_gen,
     find_timestamps,
     find_top_pixels,
