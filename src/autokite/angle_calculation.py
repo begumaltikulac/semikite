@@ -12,9 +12,8 @@ from functions_autokite import (
     pixel_to_sky_angles,
 )
 
-DATE = "20250901"
-theo_start_date = "2025-09-01"
-colors = ["yellow", "red"]
+DATE = "20250903"
+theo_start_date = "2025-09-03"
 
 for time_measured in ["morning","afternoon"]:
     all_elevation = []
@@ -31,31 +30,35 @@ for time_measured in ["morning","afternoon"]:
     coordinates["azimuth"] = all_azimuth
     coordinates.to_csv(outcsv_name)
 
-""" 20250901 exclusive
-"""
 if DATE == "20250901" and time_measured == "morning":
     theo_start_times = ["10:03:20", "10:03:20"]
     theo_files = [
         "theodolite_data/TheoGelb_20250901_100320.td4",
         "theodolite_data/TheoRot_20250901_100320.td4",
     ]
+    colors = ["yellow", "red"]
 elif DATE == "20250901" and time_measured == "afternoon":
     theo_start_times = ["13:17:08", "13:17:09"]
     theo_files = [
         "theodolite_data/TheoGelb_20250901_131708.txt",
         "theodolite_data/TheoRot_20250901_131709.txt",
     ]
+    colors = ["yellow", "red"]
+elif DATE == "20250903" and time_measured == "morning":
+    theo_start_times = ["10:49:09"]
+    theo_files = [
+        "theodolite_data/TheoGelb_20250901_131708.txt",
+    ]
+    colors = ["yellow"]
+elif DATE == "20250903" and time_measured == "afternoon":
+    theo_start_times = ["14:42:17"]
+    theo_files = [
+        "theodolite_data/TheoGelb_20250901_131708.txt",
+    ]
+    colors = ["yellow"]
 else:
     raise ValueError(f"Unknown time_measured: {time_measured}")
 
 for theo_start_time, theo_file, color in zip(theo_start_times, theo_files, colors):
     theo = open_theodolite(file=theo_file, obs_date=theo_start_date, start_time=theo_start_time)
     theo.to_csv(f"coordinates/{DATE}/{color}_theodolite_angles_{DATE}_{time_measured}.csv")
-
-# for theo_start_time, theo_file, time_measured in zip(
-#     ["10:49:09", "14:43:17"],
-#     [f"theodolite_data/TheoGelb_{DATE}_104909.txt", f"theodolite_data/TheoGElb_{DATE}_144217.txt"],
-#     ["morning", "afternoon"],
-# ):
-#     theo = open_theodolite(file=theo_file, obs_date=theo_start_date, start_time=theo_start_time)
-#     theo.to_csv(f"coordinates/{DATE}/theodolite_angles_{DATE}_{time_measured}.csv")
