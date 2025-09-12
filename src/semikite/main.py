@@ -8,7 +8,7 @@ import os
 from src.autokite.functions_autokite import document_top_pixels_as_pickle, find_timestamps
 
 # CHANGE ACOORDINGLY TO WHICH LAUNCH ON WHICH DAY
-DATE = "20250901"
+DATE = "20250903"
 SUBFOLDER = "morning"
 
 matplotlib.use('Qt5Agg')  # <- important command for GUI window
@@ -30,7 +30,7 @@ def onclick(event):
     if event.xdata is not None and event.ydata is not None:
         x = int(event.xdata)
         y = int(event.ydata)
-        clicked_coord.append([y,x])
+        clicked_coord.append([x,y])
         #print(f"Coordinates: x={x}, y={y}")
         plt.close()
 
