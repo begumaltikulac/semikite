@@ -8,8 +8,8 @@ import os
 from src.autokite.functions_autokite import document_top_pixels_as_pickle, find_timestamps
 
 # CHANGE ACOORDINGLY TO WHICH LAUNCH ON WHICH DAY
-DATE = "20250903"
-SUBFOLDER = "morning"
+DATE = "20250901"
+SUBFOLDER = "afternoon"
 
 matplotlib.use('Qt5Agg')  # <- important command for GUI window
 REL_PATH_AUTOKITE = "../autokite"

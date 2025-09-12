@@ -12,8 +12,8 @@ from functions_autokite import (
     pixel_to_sky_angles,
 )
 
-DATE = "20250903"
-theo_start_date = "2025-09-03"
+DATE = "20250901"
+theo_start_date = "2025-09-01"
 
 for time_measured in ["morning","afternoon"]:
     all_elevation = []

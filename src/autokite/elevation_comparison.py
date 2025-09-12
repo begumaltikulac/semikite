@@ -11,8 +11,8 @@ from functions_autokite import pixel_to_sky_angles
 matplotlib.use("Qt5Agg")  # "TkAgg"
 
 DATE = "20250901"
-time = "10:04:20 CEST"
-time_measured = "morning"
+time = "14:18:20 CEST"
+time_measured = "afternoon"
 semikite_filename = f"../semikite/coordinates_semikite_{DATE}_{time_measured}.pckl"
 
 # theodolite part
