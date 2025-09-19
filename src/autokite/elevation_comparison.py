@@ -70,7 +70,7 @@ plt.savefig(f"elevation_angle_comparison_{DATE}_{time_measured}.png", dpi=150)
 plt.show()
 
 # statistical data calculation part
-mean_diff = abs(np.mean(theo_elevation) - np.mean(autokite_elevation))
+mean_diff = abs(theo_elevation.mean() - autokite_elevation.mean())
 rmse = np.sqrt(((theo_elevation-autokite_elevation)**2).mean())
 print(f"The mean angle difference is: {mean_diff}")
 print(f"The rmse is {rmse}.")
