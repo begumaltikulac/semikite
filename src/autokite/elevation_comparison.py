@@ -54,7 +54,7 @@ gps.index += timedelta(hours=1)
 gps_elevation = gps["elevation_angle"]
 
 # plotting part
-fig, ax = plt.subplots(figsize=(12, 4), dpi=150)
+fig, ax = plt.subplots(figsize=(8,6), dpi=150)
 ax.plot(theo_elevation, label="yellow theodolite")
 ax.plot(autokite_elevation, label="autokite")
 ax.plot(gps_elevation, label="gps")
