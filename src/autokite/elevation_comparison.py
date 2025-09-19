@@ -16,7 +16,7 @@ time_measured = "afternoon"
 semikite_filename = f"../semikite/coordinates_semikite_{DATE}_{time_measured}.pckl"
 
 # theodolite part
-theodolite = pd.read_csv(f'coordinates/{DATE}/yellow_theodolite_angles_{DATE}_{time_measured}.csv').reset_index(drop=True)[2:]
+theodolite = pd.read_csv(f'coordinates/{DATE}/yellow_theodolite_angles_{DATE}_{time_measured}.csv').reset_index(drop=True)[2:-1:2]
 theodolite.set_index('time_sec', drop=True, inplace=True)
 theodolite.index = pd.to_datetime(theodolite.index, format="%Y-%m-%d %H:%M:%S")
 theodolite.index += timedelta(minutes=1)
@@ -70,8 +70,15 @@ plt.savefig(f"elevation_angle_comparison_{DATE}_{time_measured}.png", dpi=150)
 plt.show()
 
 # statistical data calculation part
-mean_diff = abs(theo_elevation.mean() - autokite_elevation.mean())
-rmse = np.sqrt(((theo_elevation-autokite_elevation)**2).mean())
-print(f"The mean angle difference is: {mean_diff}")
-print(f"The rmse is {rmse}.")
-print(f"The correlation between two measurement is: {theo_elevation.corr(autokite_elevation)}")
+# reset time index to avoid any issues due to slight time offset
+theo_elevation = theo_elevation.reset_index(drop=True)
+autokite_elevation = autokite_elevation.reset_index(drop=True)
+gps_elevation = gps_elevation.reset_index(drop=True)
+
+for device, angle in zip(["theodolite", "gps"],[theo_elevation, gps_elevation]):
+    mean_diff = abs(angle.mean() - autokite_elevation.mean())
+    rmse = np.sqrt(((angle-autokite_elevation)**2).mean())
+    print(f"The mean angle difference between {device} and the auto-/semikite measurement is: {round(mean_diff,2)}")
+    print(f"The rmse between {device} and auto-/semikite is {round(rmse,2)}.")
+    print(f"The correlation between {device} and auto-/semikite measurement is: {round(angle.corr(autokite_elevation),2)}")
+    print()
