@@ -54,9 +54,9 @@ gps.index = pd.to_datetime(gps.index)
 gps_elevation = gps["elevation_angle"]
 
 # plotting part
-fig, ax = plt.subplots(figsize=(8,6), dpi=150)
-ax.plot(theo_elevation, label="yellow theodolite")
-ax.plot(autokite_elevation, label="autokite")
+fig, ax = plt.subplots(figsize=(8,5), dpi=150)
+ax.plot(theo_elevation, label="theodolite")
+ax.plot(autokite_elevation, label="autokite + semikite")
 ax.plot(gps_elevation, label="gps")
 ax.set_xlim(list(autokite.index)[0], list(autokite.index)[-1])
 ax.set_xticks(list(autokite.index)[0::100])
