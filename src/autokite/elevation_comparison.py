@@ -20,6 +20,7 @@ theodolite = pd.read_csv(f'coordinates/{DATE}/yellow_theodolite_angles_{DATE}_{t
 theodolite.set_index('time_sec', drop=True, inplace=True)
 theodolite.index = pd.to_datetime(theodolite.index, format="%Y-%m-%d %H:%M:%S")
 theodolite.index += timedelta(minutes=1)
+theodolite.index -= timedelta(hours=1)
 theo_elevation = theodolite["elevation"]
 
 # autokite part
@@ -43,14 +44,13 @@ autokite.update(semikite)
 autokite.reset_index(inplace=True)
 autokite.set_index('time', drop=True, inplace=True)
 autokite.index = pd.to_datetime(autokite.index, format="%Y%m%d_%H%M%S")
-# autokite.index += timedelta(hours=1)
+autokite.index -= timedelta(hours=1)
 autokite_elevation = autokite["elevation"]
 
 # GPS
 gps = pd.read_csv(f'gps_results/{DATE}_{time_measured}.csv')[2:]
 gps.set_index('time', drop=True, inplace=True)
 gps.index = pd.to_datetime(gps.index)
-gps.index += timedelta(hours=1)
 gps_elevation = gps["elevation_angle"]
 
 # plotting part
