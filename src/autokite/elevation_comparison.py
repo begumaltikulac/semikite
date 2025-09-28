@@ -2,7 +2,6 @@ from datetime import timedelta
 import matplotlib
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 import pickle
 
@@ -79,9 +78,8 @@ autokite_elevation = autokite_elevation.reset_index(drop=True)
 gps_elevation = gps_elevation.reset_index(drop=True)
 
 for device, angle in zip(["auto-/semikite", "gps"],[autokite_elevation, gps_elevation]):
-    mean_diff = abs(angle.mean() - theo_elevation.mean())
-    rmse = np.sqrt(((angle-autokite_elevation)**2).mean())
+    mean_diff = angle-theo_elevation
+    mean_diff = mean_diff.mean()
     print(f"The mean angle difference between {device} and the theodolite measurement is: {round(mean_diff,2)}")
-    print(f"The rmse between {device} and theodolite is {round(rmse,2)}.")
     print(f"The correlation between {device} and theodolite measurement is: {round(angle.corr(theo_elevation),2)}")
     print()
