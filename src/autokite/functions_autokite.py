@@ -150,7 +150,7 @@ def pixel_to_sky_angles(
     theta = -6.380024219e-7*theta**4 + 1.384399783e-4*theta**3 - 1.122405179e-2*theta**2 + 1.326190211*theta+2.494295303
 
     # Azimuth angle φ
-    phi = np.degrees(np.arctan2(-dy, dx)) % 360  # negative dy to match image coordinates
+    phi = np.degrees(np.arctan2(dx, dy)) % 360  # negative dy to match image coordinates
 
     return round(theta, 2), round(phi, 2)
 
