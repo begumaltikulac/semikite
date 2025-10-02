@@ -78,7 +78,7 @@ autokite_elevation = autokite_elevation.reset_index(drop=True)
 gps_elevation = gps_elevation.reset_index(drop=True)
 
 for device, angle in zip(["auto-/semikite", "gps"],[autokite_elevation, gps_elevation]):
-    mean_diff = angle-theo_elevation
+    mean_diff = np.sqrt((angle-theo_elevation)**2)
     mean_diff = mean_diff.mean()
     print(f"The mean angle difference between {device} and the theodolite measurement is: {round(mean_diff,2)}")
     print(f"The correlation between {device} and theodolite measurement is: {round(angle.corr(theo_elevation),2)}")
