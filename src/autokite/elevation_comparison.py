@@ -56,7 +56,7 @@ gps_elevation = gps["elevation_angle"]
 # plotting part
 fig, ax = plt.subplots(figsize=(8,5), dpi=150)
 ax.plot(theo_elevation, label="Theodolite")
-ax.plot(autokite_elevation, label="Autokite + Semikite")
+ax.plot(autokite_elevation, label="SAWKiDe")
 ax.plot(gps_elevation, label="Radiosonde GPS")
 ax.set_xlim(list(autokite.index)[0], list(autokite.index)[-1])
 ax.set_xticks(list(autokite.index)[0::100])

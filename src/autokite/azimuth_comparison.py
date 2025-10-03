@@ -61,7 +61,7 @@ auto_fixed = fix_azimuth_wrap(autokite_azimuth)
 
 fig, ax = plt.subplots(figsize=(8,5), dpi=150)
 ax.plot(theo_fixed.index, theo_fixed-180, label="Theodolite")
-ax.plot(auto_fixed.index, auto_fixed-180, label="Autokite + Semikite")
+ax.plot(auto_fixed.index, auto_fixed-180, label="SAWKiDe")
 ax.set_xlim(list(autokite.index)[0], list(autokite.index)[-1])
 ax.set_xticks(list(autokite.index)[0::100])
 ax.set_xlabel('09/01/2025 Time (UTC)', fontsize=10, weight="bold")
